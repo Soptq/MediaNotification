@@ -182,9 +182,11 @@ public class NotificationService extends NotificationListenerService {
                 .setSmallIcon(R.drawable.ic_music)
                 .setContentTitle(title)
                 .setContentText(subtitle)
+                .setCategory(NotificationCompat.CATEGORY_STATUS)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+//                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setDeleteIntent(PendingIntent.getService(this, 0, deleteIntent, 0))
-                //.setStyle(new android.support.v4.media.app.NotificationCompat.MediaStyle())
+//                .setStyle(new android.support.v4.media.app.NotificationCompat.MediaStyle())
                 .setOngoing(isPlaying || !prefs.getBoolean(PreferenceUtils.PREF_ALWAYS_DISMISSIBLE, false))
                 .setVisibility(VISIBILITY_PUBLIC);
 

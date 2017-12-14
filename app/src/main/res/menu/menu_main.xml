@@ -14,6 +14,18 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_changelog"
+        android:icon="@drawable/ic_info"
+        android:title="@string/changelog"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_intro"
+        android:icon="@drawable/ic_info"
+        android:title="@string/intro"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_about"
         android:icon="@drawable/ic_info"
         android:title="@string/action_about"

@@ -3,6 +3,7 @@ package james.medianotification.activities;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private boolean FirstStart = false;
+    private static final String START_KEY = "isFirst";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 findViewById(R.id.icon).setVisibility(View.GONE);
+                intro();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     ValueAnimator animator = ValueAnimator.ofObject(new ArgbEvaluator(), getWindow().getStatusBarColor(), ContextCompat.getColor(MainActivity.this, R.color.colorPrimaryDark));
                     animator.setInterpolator(new AccelerateInterpolator());
@@ -63,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }, 3000);
+
     }
 
     @Override
@@ -85,10 +91,30 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_tutorial:
                 ((MediaNotification) getApplicationContext()).showTutorial();
                 break;
+            case R.id.action_changelog:
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(R.string.changelog);
+                builder.setMessage(R.string.changelogcontent);
+                builder.create().show();
+                break;
             case R.id.action_about:
                 new AboutDialog(this).show();
                 break;
+            case R.id.action_intro:
+                startActivity(new Intent(MainActivity.this,MainIntroActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void intro() {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        FirstStart = preferences.getBoolean(START_KEY, true);
+        if (FirstStart == true) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(START_KEY, false);
+            editor.commit();
+            startActivity(new Intent(MainActivity.this,MainIntroActivity.class));
+        }
     }
 }

@@ -34,12 +34,14 @@ public class AboutDialog extends AppCompatDialog {
 
     private TextView vukView;
     private RecyclerView contributorView;
+    private RecyclerView maintainerView;
     private View githubView;
     private View glideView;
     private View markwonView;
 
     private SharedPreferences prefs;
     private List<ContributorData> contributors;
+    private List<ContributorData> maintainers;
 
     public AboutDialog(Context context) {
         super(context);
@@ -52,6 +54,7 @@ public class AboutDialog extends AppCompatDialog {
 
         vukView = findViewById(R.id.vuk);
         contributorView = findViewById(R.id.contributors);
+        maintainerView = findViewById(R.id.maintainers);
         githubView = findViewById(R.id.github);
         glideView = findViewById(R.id.glide);
         markwonView = findViewById(R.id.markwon);
@@ -66,7 +69,7 @@ public class AboutDialog extends AppCompatDialog {
         githubView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TheAndroidMaster/MediaNotification")));
+                getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Soptq/MediaNotification")));
             }
         });
 
@@ -85,10 +88,17 @@ public class AboutDialog extends AppCompatDialog {
         });
 
         contributors = new ArrayList<>();
+        maintainers = new ArrayList<>();
 
         contributorView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         contributorView.setNestedScrollingEnabled(false);
         contributorView.setAdapter(new ContributorAdapter(contributors));
+
+        maintainerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        maintainerView.setNestedScrollingEnabled(false);
+        maintainerView.setAdapter(new ContributorAdapter(maintainers));
+
+        maintainers.add(new ContributorData("Soptq", "https://avatars3.githubusercontent.com/u/32592090?v=4", "https://github.com/Soptq"));
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         if (prefs.getInt(PreferenceUtils.PREF_CONTRIBUTOR_VERSION, 0) == BuildConfig.VERSION_CODE) {
@@ -115,7 +125,7 @@ public class AboutDialog extends AppCompatDialog {
         @Override
         public void run() {
             try {
-                HttpURLConnection request = (HttpURLConnection) new URL("https://api.github.com/repos/TheAndroidMaster/MediaNotification/contributors").openConnection();
+                HttpURLConnection request = (HttpURLConnection) new URL("https://api.github.com/repos/Soptq/MediaNotification/contributors").openConnection();
                 request.connect();
 
                 JsonReader reader = new JsonReader(new InputStreamReader((InputStream) request.getContent()));

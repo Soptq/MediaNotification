@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="changelogcontent">
+        <i>Version 1.0.1</i>\n
+        - Add Chinese traslation support\n
+        - Optimize color algorithms\n
+        - Optimize logic\n
+        - Add more helps\n
+        - Add Intro Activity\n
+        \n
+        \n
+        \n
+        <i>From now on,Medianotification that uploaded to Coolapk Market will be under my maintain.Thanks for everybody\'s support.</i>\n
+        <i>When you have a good idea or find a bug,please reported to my Github but not Coolapk Market\'s comment area,which will make it difficult to trace and fix.</i>\n
+        <i>However,if you dont have a Github account,then you can only post your idea in comment area,but dont forget to @me</i>\n
+        <i>You can find my github URL at "help"</i>\n
+        \n
+        <i>Version 1.0.0</i>
+    </string></resources>

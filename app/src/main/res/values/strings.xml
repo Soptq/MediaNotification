@@ -57,6 +57,15 @@
     <string name="desc_tutorial_players_supported">The \'supported players\' section contains apps that are officially supported by Media Notification. The \'all\' section contains everything else. Unfortunately, it is not possible to include only music players in this list as there is currently no reliable method of determining whether an app plays music or not.</string>
     <string name="desc_tutorial_players_default">Setting an app as the default player will cause Media Notification to assume that app is playing if it is unable to find the current player through any other method.</string>
     <string name="title_show_tutorials">Show Intro Sections</string>
+    <string name="current_maintainer">Current maintainer</string>
+    <string name="changelog">Changelog</string>
+    <string name="intro">Show Intro</string>
+    <string name="top_2">Beautiful Notification</string>
+    <string name="noti_decp">Android Oreo Style</string>
+    <string name="top_3">Come And Have A Try</string>
+    <string name="fin_decp">Don\'t forget to read "help" first,it includes many useful hints</string>
+    <string name="readme">https://raw.githubusercontent.com/TheAndroidMaster/MediaNotification/master/README.md</string>
+    <string name="last_fm_api_key">48a73efd677ff3faa36e0d1d421ad859</string>
 
     <string-array name="array_color_methods">
         <item>Dominant</item>

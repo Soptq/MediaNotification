@@ -56,7 +56,7 @@ public class HelpFragment extends BaseFragment {
         public void run() {
             final String text;
             try {
-                URL url = new URL("https://raw.githubusercontent.com/TheAndroidMaster/MediaNotification/master/README.md");
+                URL url = new URL("R.string.readme");
                 HttpURLConnection request = (HttpURLConnection) url.openConnection();
                 request.connect();
 
