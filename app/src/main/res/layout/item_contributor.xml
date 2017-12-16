@@ -10,7 +10,7 @@
     android:paddingStart="22dp"
     android:paddingTop="8dp">
 
-    <james.medianotification.views.CircleImageView
+    <soptqs.medianotification.views.CircleImageView
         android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

@@ -19,7 +19,7 @@
     <string name="msg_app_ops_denied">android.permission.UPDATE_APP_OPS_STATS 权限没有被授予</string>
     <string name="title_check_permission">检查权限</string>
     <string name="title_last_fm">从Last.fm获取音乐封面</string>
-    <string name="msg_readme_error">不能获取ReadMe:%s</string>
+    <string name="msg_readme_error">不能获取ReadMe,网络错误</string>
     <string name="title_default_player">默认音乐播放器</string>
     <string name="desc_default_player">如果应用程序在点击通知时无法检测到音乐播放器，则可以设置默认应用程序来启动。</string>
     <string name="title_always_dismissible">始终使应用程序通知持续显示</string>
@@ -64,7 +64,7 @@
     <string name="noti_decp">Android Oreo 风格</string>
     <string name="top_3">快来尝试一下</string>
     <string name="fin_decp">不要忘记阅读"帮助"，里面有许多有用的技巧与提示</string>
-    <string name="readme">https://raw.githubusercontent.com/TheAndroidMaster/MediaNotification/master/README_zh.md</string>
+    <string name="readme">https://github.com/Soptq/MediaNotification/blob/China/README_zh.md</string>
     <string name="last_fm_api_key">48a73efd677ff3faa36e0d1d421ad859</string>
 
 

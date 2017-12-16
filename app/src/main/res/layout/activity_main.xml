@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <james.medianotification.views.AppIconView
+        <soptqs.medianotification.views.AppIconView
             android:layout_width="146dp"
             android:layout_height="146dp"
             android:layout_gravity="center" />
