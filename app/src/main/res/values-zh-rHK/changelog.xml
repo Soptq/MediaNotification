@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="changelogcontent">
+        \n
+        \n
+        \n
+        <strong>版本 1.0.1</strong>\n
+        - 增加中文語言支持\n
+        - 優化顏色算法\n
+        - 優化邏輯\n
+        - 增加更多幫助\n
+        - 新增引導界面\n
+        \n
+        \n
+        \n
+        <i>從現在開始，酷安的媒體通知應用將由我來維護。謝謝大家對我的支持。</i>\n
+        <i>當妳有壹個好主意或發現壹個錯誤，請報告給我的Github賬號，而不是酷安市場的評論區，這將讓我很難追蹤和修復問題。</i>\n
+        <i>但是，如果妳沒有Github帳戶，那麽在發表妳的想法時請不要忘記@我</i>\n
+        <i>妳可以在“幫助”欄中找到我的github網址</i>\n
+        \n
+        <strong>版本1.0.0</strong>
+    </string>
+</resources>

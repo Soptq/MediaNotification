@@ -1,0 +1,102 @@
+<resources>
+    <string name="app_name">媒體通知</string>
+    <string name="title_settings">自定義設置</string>
+    <string name="title_players">播放器</string>
+    <string name="title_supported_players">支持的播放器</string>
+    <string name="title_all">所有</string>
+    <string name="title_help">幫助</string>
+    <string name="title_media_notification">開啟媒體通知</string>
+    <string name="title_high_contrast_text">高對比度文字/圖片</string>
+    <string name="title_color_method">取色模式</string>
+    <string name="title_custom_color">默認取色</string>
+    <string name="app_name_spotify">Spotify</string>
+    <string name="desc_check_permission">如果您的設備獲得了Root訪問權限，那麼您可以通過某種方法授予應用程序 android.permission.UPDATE_APP_OPS_STATS 權限來使應用可以自行阻止音樂應用程序的通知，但 android.permission.UPDATE_APP_OPS_STATS 權限被保護在"簽名保護"下，所以目前不可能在這個應用程序中包含該功能。</string>
+    <string name="title_grant_permission">檢查權限</string>
+    <string name="desc_storage">為了獲取音樂的封面圖片，應用需要獲得儲存卡儲存權限。 為了授予應用該權限，請點擊"允許"按鈕。</string>
+    <string name="desc_receiver">如果您沒有Root訪問權限，但仍然可以自行阻止音樂應用程序的通知，並通過切換下面的開關告訴應用程序去完全依賴廣播接收器。這可能會導致應用程序在與某些音樂應用程序壹起使用時變得不穩定和不可靠，並且控制按鈕可能無法正常工作，因為應用程序無法通過音樂應用程序的通知觸發它們。</string>
+    <string name="title_receiver">使用廣播接收器</string>
+    <string name="msg_permission_granted">成功！權限已經被授予</string>
+    <string name="msg_app_ops_denied">android.permission.UPDATE_APP_OPS_STATS 權限沒有被授予</string>
+    <string name="title_check_permission">檢查權限</string>
+    <string name="title_last_fm">從Last.fm獲取音樂封面</string>
+    <string name="msg_readme_error">不能獲取ReadMe,網酪錯誤</string>
+    <string name="title_default_player">默認音樂播放器</string>
+    <string name="desc_default_player">如果應用程序在點擊通知時無法檢測到音樂播放器，則可以設置默認應用程序來啟動。</string>
+    <string name="title_always_dismissible">始終使應用程序通知可以被劃去</string>
+    <string name="title_kill_process">劃去通知後關閉應用程序(不安全)</string>
+    <string name="msg_reflection_error">不能再反射過程中發送關鍵事件: %s</string>
+    <string name="title_media_controls">音樂控制方法(不可靠)</string>
+    <string name="desc_media_controls">這使您可以指定壹種方法來控制音樂播放器，如果應用程序無法找出哪個應用程序正在播放音樂，或者沒有任何其他方式來控制它。</string>
+    <string name="action_load_all_apps">加載所有應用</string>
+    <string name="title_album_art">顯示專輯圖片</string>
+    <string name="action_github">遊覽Github庫</string>
+    <string name="title_inverse_text">使用反轉的文字顏色</string>
+    <string name="title_contributors">貢獻者</string>
+    <string name="action_about">關於</string>
+    <string name="msg_vuk">感謝 legendary Vukašin Anđelković 制作漂亮的APP圖標</string>
+    <string name="title_libraries">開源庫</string>
+    <string name="title_glide">Glide</string>
+    <string name="desc_glide">An image loading and caching library for Android focused on smooth scrolling.</string>
+    <string name="msg_open_source">也想貢獻代碼? 這個應用程序在Github上開源</string>
+    <string name="title_cancel_original_notification">嘗試正常地關閉音樂應用程序通知</string>
+    <string name="title_appearance_settings">外觀設置</string>
+    <string name="title_settings_behavior">行為設置</string>
+    <string name="title_force_md_icons">強制MD播放圖標</string>
+    <string name="title_external_storage">外置儲存</string>
+    <string name="action_open">打開</string>
+    <string name="action_set_default">默認</string>
+    <string name="title_default">默認</string>
+    <string name="title_markwon">Markwon</string>
+    <string name="desc_markwon">A library for Android that renders markdown as system-native Spannables.</string>
+    <string name="title_welcome">歡迎</string>
+    <string name="desc_tutorial">媒體通知是壹款可以在Android Oreo以前的設備上重現Android Oreo豐富多彩的媒體通知的應用程序。 請註意，這個應用程序不會取代其他應用程序的通知; 它會創建自己的通知。 要查看所有可用選項和用例，請訪問“幫助”部分或按“了解更多”。</string>
+    <string name="title_learn_more">了解更多</string>
+    <string name="title_got_it">明白</string>
+    <string name="title_tutorial_players">應用程序單獨設置</string>
+    <string name="desc_tutorial_player">該列表列出了手機上當前安裝的所有應用程序。 每個應用程序右側的開關允許您在應用程序播放時啟用或禁用媒體通知。 如果關閉該開關，媒體通知將不會做任何事情，因為無法從該應用程序獲取任何通知或廣播。</string>
+    <string name="desc_tutorial_players_supported">“支持的播放器”部分包含媒體通知正式支持的應用程序。 “所有”部分包含其他所有內容。 不幸的是，由於目前還沒有確定應用程序是否播放音樂的可靠方法，因此在該列表中僅包括音樂播放器是不可能的。</string>
+    <string name="desc_tutorial_players_default">將應用程序設置為默認播放器將導致媒體通知無法通過任何其他方法找到當前播放器時始終假設該默認音樂應用程序正在播放。</string>
+    <string name="title_show_tutorials">間介</string>
+    <string name="current_maintainer">當前維護者</string>
+    <string name="changelog">更新日誌</string>
+    <string name="intro">顯示引導</string>
+    <string name="top_2">漂亮的狀態欄</string>
+    <string name="noti_decp">Android Oreo 風格</string>
+    <string name="top_3">快來嘗試壹下</string>
+    <string name="fin_decp">不要忘記閱讀"幫助"，裏面有許多有用的技巧與提示</string>
+    <string name="readme">https://github.com/Soptq/MediaNotification/blob/China/README_zh.md</string>
+    <string name="local">CHINESE</string>
+    <string name="isplaying">播放中</string>
+    <string name="ispause">暫停</string>
+    <string name="title_settings_daemon">守護後臺</string>
+    <string name="title_daemon_option1">方法壹(不推薦)</string>
+    <string name="daemon_decp1">需要Root權限。使用Root權限來從/data/app/soptqs.medianotification復制MediaNotification.apk到/system/app/"您新建的文件夾"來是該應用成為壹個系統應用,您可以手動地更安全地復制這個文件。使應用程序成為系統應用將保持應用的後臺開啟，這會讓該應用隨時響應您的音樂通知欄請求.但是，當您想卸載該應用時，您可能需要手動操作。</string>
+    <string name="daemon_button1">復制</string>
+    <string name="title_daemon_option2">方法二（推薦）</string>
+    <string name="daemon_decp2">需要Magisk Manager。使用模塊將MediaNotification.apk復制到系統app目錄.這和方法壹有同洋的作用但是您可以間單的在Magisk Manager中關閉這個模塊來使其可以被卸載</string>
+    <string name="daemon_button2">下載模塊</string>
+    <string name="reboot">重啟以生效，如果重啟後發現復制失敗，請手動替換。</string>
+    <string name="title_alert_copy">方法壹並不可靠</string>
+    <string name="title_alert_copy_decp">自己復制自己可能會出現壹些未知錯誤.建議通過文件管理器手動操作</string>
+    <string name="yes">是的</string>
+    <string name="Cancel">取消</string>
+    <string name="download">下載中</string>
+
+    <string-array name="array_color_methods">
+        <item>優勢</item>
+        <item>主要</item>
+        <item>活力</item>
+        <item>柔和</item>
+        <item>默認</item>
+    </string-array>
+
+    <string-array name="array_control_methods">
+        <item>默認 (無)</item>
+        <item>AudioManager API</item>
+        <item>Reflection (Unstable)</item>
+        <item>Broadcast</item>
+        <item>Broadcast String</item>
+        <item>Broadcast Parcelable</item>
+    </string-array>
+
+</resources>

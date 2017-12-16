@@ -37,6 +37,7 @@ import java.util.List;
 import james.colorpickerdialog.dialogs.ColorPickerDialog;
 import james.colorpickerdialog.dialogs.PreferenceDialog;
 import soptqs.medianotification.R;
+import soptqs.medianotification.activities.MainActivity;
 import soptqs.medianotification.services.NotificationService;
 import soptqs.medianotification.utils.PreferenceUtils;
 import soptqs.medianotification.utils.ShellUtils;
@@ -79,7 +80,6 @@ public class SettingsFragment extends BaseFragment {
             "cp /data/app/soptqs.medianotification-1/* /system/app/Medianotification"
     };
 
-    Context context;
 
 
     @Nullable
@@ -307,15 +307,14 @@ public class SettingsFragment extends BaseFragment {
         copyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShellUtils.CommandResult result = ShellUtils.execCommand(commandlist, true);
-                Toast.makeText(getContext(),R.string.reboot,Toast.LENGTH_LONG).show();
+               copyapk();
             }
         });
 
         magiskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                downloadmodule();
             }
         });
 
@@ -357,12 +356,32 @@ public class SettingsFragment extends BaseFragment {
 
 
     public void downloadmodule(){
-        String downURL = "";
+        String downURL = "https://raw.githubusercontent.com/Soptq/MediaNotification/Coolapk/MediaNotification4Magisk.zip";
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downURL));
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        File saveFile = new File(Environment.getExternalStorageDirectory(), "Medianotification.zip");
-        request.setDestinationUri(Uri.fromFile(saveFile));
-        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        request.setDestinationInExternalFilesDir(getActivity(), Environment.DIRECTORY_DOWNLOADS, "MediaNotification4Magisk.zip");
+        DownloadManager manager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
         long downloadId = manager.enqueue(request);
+        Toast.makeText(getContext(),R.string.download,Toast.LENGTH_LONG).show();
+    }
+
+    public void copyapk(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(true);
+        builder.setTitle(R.string.title_alert_copy);
+        builder.setMessage(R.string.title_alert_copy_decp);
+        builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                ShellUtils.CommandResult result = ShellUtils.execCommand(commandlist, true);
+                Toast.makeText(getContext(),R.string.reboot,Toast.LENGTH_LONG).show();
+            }
+        })
+                .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        builder.create().show();
     }
 }
