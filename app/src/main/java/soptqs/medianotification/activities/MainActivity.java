@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case soptqs.medianotification.R.id.action_github:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Soptq/MediaNotification")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Soptq/MediaNotification/tree/Coolapk")));
                 break;
             case soptqs.medianotification.R.id.action_tutorial:
                 ((MediaNotification) getApplicationContext()).showTutorial();
