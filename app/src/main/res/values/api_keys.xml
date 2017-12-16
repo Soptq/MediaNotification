@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!--you can register a last.fm api for free,so why use mine?-->
-    <string name="last_fm_api_key">48a73efd677ff3faa36e0d1d421ad859</string>
-</resources>
