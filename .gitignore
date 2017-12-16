@@ -64,3 +64,5 @@ gradlew.bat
 .DS_Store
 app/src/.DS_Store
 app/src/main/.DS_Store
+app/src/main/res/values/api_keys.xml
+app/src/main/res/values/api_keys.xml
