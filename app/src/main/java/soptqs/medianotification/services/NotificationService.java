@@ -56,6 +56,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import soptqs.medianotification.R;
 import soptqs.medianotification.data.PlayerData;
 import soptqs.medianotification.receivers.ActionReceiver;
 import soptqs.medianotification.utils.ImageUtils;
@@ -64,6 +65,7 @@ import soptqs.medianotification.utils.PlayerUtils;
 import soptqs.medianotification.utils.PreferenceUtils;
 import soptqs.medianotification.utils.RemoteViewsUtils;
 
+import static android.support.v4.app.NotificationCompat.PRIORITY_MAX;
 import static android.support.v4.app.NotificationCompat.VISIBILITY_PUBLIC;
 
 public class NotificationService extends NotificationListenerService {
@@ -182,11 +184,9 @@ public class NotificationService extends NotificationListenerService {
                 .setContentTitle(title)
                 .setContentText(subtitle)
                 .setCategory(NotificationCompat.CATEGORY_STATUS)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-//                .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setDeleteIntent(PendingIntent.getService(this, 0, deleteIntent, 0))
 //                .setStyle(new android.support.v4.media.app.NotificationCompat.MediaStyle())
-                .setOngoing(isPlaying || !prefs.getBoolean(PreferenceUtils.PREF_ALWAYS_DISMISSIBLE, false))
+                .setOngoing(isPlaying || prefs.getBoolean(PreferenceUtils.PREF_ALWAYS_DISMISSIBLE, false))
                 .setVisibility(VISIBILITY_PUBLIC);
 
         if (contentIntent != null)
@@ -236,7 +236,7 @@ public class NotificationService extends NotificationListenerService {
 
     private RemoteViews getContentView(boolean isCollapsed) {
         RemoteViews remoteViews = new RemoteViews(getPackageName(), isCollapsed ? soptqs.medianotification.R.layout.layout_notification_collapsed : soptqs.medianotification.R.layout.layout_notification_expanded);
-        remoteViews.setTextViewText(soptqs.medianotification.R.id.appName, appName + " \u2022 " + (isPlaying ? "Playing" : "Paused"));
+        remoteViews.setTextViewText(soptqs.medianotification.R.id.appName, appName + " \u2022 " + (isPlaying ? getResources().getString(R.string.isplaying) : getResources().getString(R.string.ispause)));
         remoteViews.setTextViewText(soptqs.medianotification.R.id.title, title);
         remoteViews.setTextViewText(soptqs.medianotification.R.id.subtitle, subtitle);
 

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="changelogcontent">
-        <i>版本 1.0.1</i>\n
+        \n
+        \n
+        \n
+        <strong>版本 1.0.1</strong>\n
         - 增加中文语言支持\n
         - 优化颜色算法\n
         - 优化逻辑\n
@@ -15,6 +18,6 @@
         <i>但是，如果你没有Github帐户，那么在发表你的想法时请不要忘记@我</i>\n
         <i>你可以在“帮助”栏中找到我的github网址</i>\n
         \n
-        <i>版本1.0.0</i>
+        <strong>版本1.0.0</strong>
     </string>
 </resources>

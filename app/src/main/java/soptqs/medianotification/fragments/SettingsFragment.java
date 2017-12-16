@@ -1,15 +1,19 @@
 package soptqs.medianotification.fragments;
 
 import android.Manifest;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +31,15 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import java.io.File;
+import java.util.List;
+
 import james.colorpickerdialog.dialogs.ColorPickerDialog;
 import james.colorpickerdialog.dialogs.PreferenceDialog;
+import soptqs.medianotification.R;
 import soptqs.medianotification.services.NotificationService;
 import soptqs.medianotification.utils.PreferenceUtils;
+import soptqs.medianotification.utils.ShellUtils;
 import soptqs.medianotification.views.ColorImageView;
 
 public class SettingsFragment extends BaseFragment {
@@ -57,8 +67,20 @@ public class SettingsFragment extends BaseFragment {
     private View rootPermission;
     private Button rootPermissionButton;
     private SwitchCompat receiverSwitch;
+    private Button copyButton;
+    private Button magiskButton;
+
 
     private SharedPreferences prefs;
+
+    String[] commandlist = new String[]{
+            "mount -o rw,remount /system",
+            "mkdir -p -m 755 /system/app/Medianotification",
+            "cp /data/app/soptqs.medianotification-1/* /system/app/Medianotification"
+    };
+
+    Context context;
+
 
     @Nullable
     @Override
@@ -85,6 +107,8 @@ public class SettingsFragment extends BaseFragment {
         rootPermission = view.findViewById(soptqs.medianotification.R.id.rootPermission);
         rootPermissionButton = view.findViewById(soptqs.medianotification.R.id.rootPermissionButton);
         receiverSwitch = view.findViewById(soptqs.medianotification.R.id.receiverSwitch);
+        copyButton = view.findViewById(R.id.CopyapkButton);
+        magiskButton = view.findViewById(R.id.magiskapkButton);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
@@ -279,6 +303,22 @@ public class SettingsFragment extends BaseFragment {
             }
         });
 
+
+        copyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShellUtils.CommandResult result = ShellUtils.execCommand(commandlist, true);
+                Toast.makeText(getContext(),R.string.reboot,Toast.LENGTH_LONG).show();
+            }
+        });
+
+        magiskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return view;
     }
 
@@ -313,5 +353,16 @@ public class SettingsFragment extends BaseFragment {
     public void onTutorial() {
         if (tutorial != null)
             tutorial.setVisibility(View.VISIBLE);
+    }
+
+
+    public void downloadmodule(){
+        String downURL = "";
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downURL));
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        File saveFile = new File(Environment.getExternalStorageDirectory(), "Medianotification.zip");
+        request.setDestinationUri(Uri.fromFile(saveFile));
+        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        long downloadId = manager.enqueue(request);
     }
 }

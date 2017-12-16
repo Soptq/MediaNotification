@@ -56,7 +56,7 @@ public class HelpFragment extends BaseFragment {
         @Override
         public void run() {
             final String text;
-            final String urlen = "https://github.com/Soptq/MediaNotification/blob/China/README_zh.md";
+            final String urlen = "https://raw.githubusercontent.com/Soptq/MediaNotification/Coolapk/README_zh.md";
             try {
                 URL url = new URL(urlen);
                 HttpURLConnection request = (HttpURLConnection) url.openConnection();

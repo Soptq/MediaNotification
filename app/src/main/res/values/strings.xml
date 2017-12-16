@@ -22,7 +22,7 @@
     <string name="msg_readme_error">Couldn\'t fetch README，Internet disconnected</string>
     <string name="title_default_player">Default Music Player</string>
     <string name="desc_default_player">If the app cannot detect a music player when the notification is clicked on, then you can set a default app for it to launch instead.</string>
-    <string name="title_always_dismissible">Always Make Notification Dismissible</string>
+    <string name="title_always_dismissible">Always Make Notification missible</string>
     <string name="title_kill_process">Kill Processes On Dismiss (Unsafe)</string>
     <string name="msg_reflection_error">Could not send the key event through reflection: %s</string>
     <string name="title_media_controls">Media Controls Method (Unreliable)</string>
@@ -65,7 +65,18 @@
     <string name="top_3">Come And Have A Try</string>
     <string name="fin_decp">Don\'t forget to read "help" first,it includes many useful hints</string>
     <string name="readme">https://raw.githubusercontent.com/TheAndroidMaster/MediaNotification/master/README.md</string>
-    <string name="last_fm_api_key">48a73efd677ff3faa36e0d1d421ad859</string>
+    <string name="local">ENGLISH</string>
+    <string name="isplaying">Playing</string>
+    <string name="ispause">Pause</string>
+    <string name="title_settings_daemon">Daemon</string>
+    <string name="title_daemon_option1">Option One</string>
+    <string name="daemon_decp1">NEED ROOT ACCESS.Copy MediaNotification.apk from /data/app/soptqs.medianotification to /system/app/"YOUR FOLDER" by Using Root Access to make it a system app,you can also do it manually which is much safer,it will let MediaNotification stay alive and response your music notification at any time.However,you need to uninstall it manually.</string>
+    <string name="daemon_button1">Copy</string>
+    <string name="title_daemon_option2">Option Two</string>
+    <string name="daemon_decp2">NEED MAGISK MANAGER.Copy MediaNotification.apk by Using Magisk.It has the same effect as Option One but you can uninstall it just by disable it in Magisk Manager</string>
+    <string name="daemon_button2">Download module</string>
+    <string name="reboot">Reboot to applay,if it failed,please do it manually</string>
+
 
     <string-array name="array_color_methods">
         <item>Dominant</item>

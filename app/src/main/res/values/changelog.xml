@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="changelogcontent">
-        <i>Version 1.0.1</i>\n
+        \n
+        \n
+        \n
+        <strong>Version 1.0.1</strong>\n
         - Add Chinese traslation support\n
         - Optimize color algorithms\n
         - Optimize logic\n
@@ -15,5 +18,5 @@
         <i>However,if you dont have a Github account,then you can only post your idea in comment area,but dont forget to @me</i>\n
         <i>You can find my github URL at "help"</i>\n
         \n
-        <i>Version 1.0.0</i>
+        <strong>Version 1.0.0</strong>
     </string></resources>
