@@ -61,3 +61,6 @@ gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
 gradlew.bat
 gradlew.bat
+.DS_Store
+app/src/.DS_Store
+app/src/main/.DS_Store
