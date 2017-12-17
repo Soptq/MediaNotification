@@ -69,18 +69,24 @@
     <string name="isplaying">播放中</string>
     <string name="ispause">暂停</string>
     <string name="title_settings_daemon">守护后台</string>
-    <string name="title_daemon_option1">方法一(不推荐)</string>
-    <string name="daemon_decp1">需要Root权限。使用Root权限来从/data/app/soptqs.medianotification复制MediaNotification.apk到/system/app/"您新建的文件夹"来是该应用成为一个系统应用,您可以手动地更安全地复制这个文件。使应用程序成为系统应用将保持应用的后台开启，这会让该应用随时响应您的音乐通知栏请求.但是，当您想卸载该应用时，您可能需要手动操作。</string>
+    <string name="title_daemon_option1">方法一</string>
+    <string name="daemon_decp1">需要Root权限来挂载根目录读写权限。使用外部文件游览器来从/data/app/soptqs.medianotification复制MediaNotification.apk到/system/app/"您新建的文件夹"来使该应用成为一个系统应用,您可以手动地更安全地复制这个文件。使应用程序成为系统应用将保持应用的后台开启，这会让该应用随时响应您的音乐通知栏请求.但是，当您想卸载该应用时，您可能需要手动操作。</string>
     <string name="daemon_button1">复制</string>
     <string name="title_daemon_option2">方法二（推荐）</string>
     <string name="daemon_decp2">需要Magisk Manager。使用模块将MediaNotification.apk复制到系统app目录.这和方法一有同样的作用但是您可以简单的在Magisk Manager中关闭这个模块来使其可以被卸载</string>
     <string name="daemon_button2">下载模块</string>
     <string name="reboot">重启以生效，如果重启后发现复制失败，请手动替换。</string>
-    <string name="title_alert_copy">方法一并不可靠</string>
-    <string name="title_alert_copy_decp">自己复制自己可能会出现一些未知错误.建议通过文件管理器手动操作</string>
+    <string name="title_alert_copy">方法一</string>
+    <string name="title_alert_copy_decp">
+         Medianotification 在这里\n
+        /data/app/soptqs.medianotification\n
+        您需要把它剪贴到\n
+        /system/app/"您的文件夹"\n
+    </string>
     <string name="yes">是的</string>
     <string name="Cancel">取消</string>
     <string name="download">下载中</string>
+    <string name="bugReport">报告问题</string>
 
     <string-array name="array_color_methods">
         <item>优势</item>

@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="changelogcontent">
+        <strong>Version 1.0.2</strong>\n
+        - Add raditional Chinese traslation support\n
+        - Add Bug reporter to help report to Github\n
+        - Fixed some bugs\n
+        \n
+           ATTENTION:It turned out that after API24,notification cannot expand itself,but need users to expand it manually.so i cannot make it always expand.
+        \n
+        - Add helps\n
+        - Add 2 method to daemon\n
+        - Learning Xposed...
         \n
         \n
         \n

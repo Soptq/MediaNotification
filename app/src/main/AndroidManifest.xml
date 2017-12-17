@@ -30,8 +30,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="soptqs.medianotification.activities.MainIntroActivity"
-            android:theme="@style/Theme.Intro"/>
+        <activity android:name="soptqs.medianotification.activities.MainIntroActivity" android:theme="@style/Theme.Intro"/>
+        <activity android:name=".activities.Issuereporter" android:theme="@style/Theme.App.Dark"/>
 
         <receiver android:name="soptqs.medianotification.receivers.ActionReceiver" />
 

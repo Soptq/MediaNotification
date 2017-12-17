@@ -373,7 +373,9 @@ public class SettingsFragment extends BaseFragment {
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                ShellUtils.CommandResult result = ShellUtils.execCommand(commandlist, true);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivity(intent);
                 Toast.makeText(getContext(),R.string.reboot,Toast.LENGTH_LONG).show();
             }
         })

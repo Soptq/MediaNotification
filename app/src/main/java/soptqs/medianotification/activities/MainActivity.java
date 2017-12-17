@@ -19,7 +19,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
+import com.heinrichreimersoftware.androidissuereporter.IssueReporterActivity;
+import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher;
+
+import java.util.logging.LogRecord;
+
 import soptqs.medianotification.MediaNotification;
+import soptqs.medianotification.R;
 import soptqs.medianotification.adapters.SimplePagerAdapter;
 import soptqs.medianotification.dialogs.AboutDialog;
 import soptqs.medianotification.fragments.AppsFragment;
@@ -101,6 +107,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case soptqs.medianotification.R.id.action_intro:
                 startActivity(new Intent(MainActivity.this,MainIntroActivity.class));
+                break;
+            case R.id.action_feedback:
+                IssueReporterLauncher.forTarget("Soptq", "Medianotification_bug")
+                        .theme(R.style.Theme_App_Dark)
+                        .putExtraInfo("Info 1", "logcat")
+                        .putExtraInfo("Info 2", true)
+                        .guestToken("1877292a749607f40a5c7db3cf0a6e3f4be05cbf")
+                        .launch(MainActivity.this);
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -3,6 +3,18 @@
     <string name="changelogcontent">
         \n
         \n
+        <strong>Version 1.0.2</strong>\n
+        - 增加繁体中文翻译支持\n
+        - 增加反馈界面\n
+        - 修复了一些bug\n
+        \n
+           注意:在API24以后APP无法自发的展开通知栏（除非它在最顶层），只能用户去手动展开她。所有我现在还没有办法使通知栏强制展开。抱歉
+        \n
+        - 新增帮助文档\n
+        - 新增2种方法来守护后台\n
+        --学习Xposed中。。。
+        \n
+        \n
         \n
         <strong>版本 1.0.1</strong>\n
         - 增加中文语言支持\n

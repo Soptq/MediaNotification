@@ -70,17 +70,23 @@
     <string name="ispause">Pause</string>
     <string name="title_settings_daemon">Daemon</string>
     <string name="title_daemon_option1">Option One</string>
-    <string name="daemon_decp1">NEED ROOT ACCESS.Copy MediaNotification.apk from /data/app/soptqs.medianotification to /system/app/"YOUR FOLDER" by Using Root Access to make it a system app,you can also do it manually which is much safer,it will let MediaNotification stay alive and response your music notification at any time.However,you need to uninstall it manually.</string>
+    <string name="daemon_decp1">Copy MediaNotification.apk from /data/app/soptqs.medianotification to /system/app/"YOUR FOLDER" by Using Root Access to make it a system app,you can also do it manually which is much safer,it will let MediaNotification stay alive and response your music notification at any time.However,you need to uninstall it manually.</string>
     <string name="daemon_button1">Copy</string>
-    <string name="title_daemon_option2">Option Two</string>
+    <string name="title_daemon_option2">Option Two(Recommend)</string>
     <string name="daemon_decp2">NEED MAGISK MANAGER.Copy MediaNotification.apk by Using Magisk.It has the same effect as Option One but you can uninstall it just by disable it in Magisk Manager</string>
     <string name="daemon_button2">Download module</string>
     <string name="reboot">Reboot to applay,if it failed,please do it manually</string>
-    <string name="title_alert_copy">Option One Is Unreliable</string>
-    <string name="title_alert_copy_decp">It may cause some problems as the app is going to copy itself.it is recommended to do copying by other file explorer manully</string>
+    <string name="title_alert_copy">Option One</string>
+    <string name="title_alert_copy_decp">
+        Medianotification is here\n
+        /data/app/soptqs.medianotification\n
+        you need to cut it to\n
+        /system/app/"Your New Folder"\n
+    </string>
     <string name="yes">Yes</string>
     <string name="Cancel">Cancel</string>
     <string name="download">Downloading</string>
+    <string name="bugReport">Report bug</string>
 
 
     <string-array name="array_color_methods">

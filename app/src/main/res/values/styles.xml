@@ -9,4 +9,12 @@
         <item name="android:windowBackground">@color/colorBackground</item>
     </style>
 
+    <style name="Theme.App.Dark" parent="Theme.IssueReporter">
+        <item name="colorPrimary">@color/colorPrimary</item><!-- required -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item><!-- required -->
+        <item name="colorAccent">@color/colorAccent</item><!-- required -->
+        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+    </style>
+
 </resources>

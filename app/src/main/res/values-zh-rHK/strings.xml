@@ -69,18 +69,24 @@
     <string name="isplaying">播放中</string>
     <string name="ispause">暫停</string>
     <string name="title_settings_daemon">守護後臺</string>
-    <string name="title_daemon_option1">方法壹(不推薦)</string>
-    <string name="daemon_decp1">需要Root權限。使用Root權限來從/data/app/soptqs.medianotification復制MediaNotification.apk到/system/app/"您新建的文件夾"來是該應用成為壹個系統應用,您可以手動地更安全地復制這個文件。使應用程序成為系統應用將保持應用的後臺開啟，這會讓該應用隨時響應您的音樂通知欄請求.但是，當您想卸載該應用時，您可能需要手動操作。</string>
+    <string name="title_daemon_option1">方法壹</string>
+    <string name="daemon_decp1">需要Root權限來掛載根目錄讀寫權限。使用外部文件遊覽器來從/data/app/soptqs.medianotification復制MediaNotification.apk到/system/app/"您新建的文件夾"來使該應用成為壹個系統應用,您可以手動地更安全地復制這個文件。使應用程序成為系統應用將保持應用的後臺開啟，這會讓該應用隨時響應您的音樂通知欄請求.但是，當您想卸載該應用時，您可能需要手動操作。</string>
     <string name="daemon_button1">復制</string>
     <string name="title_daemon_option2">方法二（推薦）</string>
     <string name="daemon_decp2">需要Magisk Manager。使用模塊將MediaNotification.apk復制到系統app目錄.這和方法壹有同洋的作用但是您可以間單的在Magisk Manager中關閉這個模塊來使其可以被卸載</string>
     <string name="daemon_button2">下載模塊</string>
     <string name="reboot">重啟以生效，如果重啟後發現復制失敗，請手動替換。</string>
-    <string name="title_alert_copy">方法壹並不可靠</string>
-    <string name="title_alert_copy_decp">自己復制自己可能會出現壹些未知錯誤.建議通過文件管理器手動操作</string>
+    <string name="title_alert_copy">方法壹</string>
+    <string name="title_alert_copy_decp">
+        Medianotification 在這裏\n
+        /data/app/soptqs.medianotification\n
+        您需要把它剪貼到\n
+        /system/app/"您的文件夾"\n
+    </string>
     <string name="yes">是的</string>
     <string name="Cancel">取消</string>
     <string name="download">下載中</string>
+    <string name="bugReport">報告問題</string>
 
     <string-array name="array_color_methods">
         <item>優勢</item>
