@@ -18,6 +18,7 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import soptqs.medianotification.MediaNotification;
 import soptqs.medianotification.R;
 import soptqs.medianotification.utils.MarkdownUtils;
 import ru.noties.markwon.Markwon;
@@ -26,6 +27,7 @@ public class HelpFragment extends BaseFragment {
 
     private ProgressBar progressBar;
     private TextView textView;
+
 
     @Nullable
     @Override
@@ -55,8 +57,9 @@ public class HelpFragment extends BaseFragment {
 
         @Override
         public void run() {
+            final String readmeurl = MediaNotification.getContext().getResources().getString(R.string.readme);
             final String text;
-            final String urlen = "https://raw.githubusercontent.com/Soptq/MediaNotification/Coolapk/README_zh.md";
+            final String urlen = readmeurl;
             try {
                 URL url = new URL(urlen);
                 HttpURLConnection request = (HttpURLConnection) url.openConnection();

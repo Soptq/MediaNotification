@@ -10,6 +10,7 @@ public class PreferenceUtils {
     public static final String PREF_HIGH_CONTRAST_TEXT = "highContrastText";
     public static final String PREF_USE_RECEIVER = "useReceiver";
     public static final String PREF_USE_LASTFM = "useLastFm";
+    public static final String PREF_USE_TENCENTMUSIC = "useTencentmusic";
     public static final String PREF_MEDIA_CONTROLS_METHOD = "mediaControlsMethod";
     public static final String PREF_ALWAYS_DISMISSIBLE = "alwaysDismissible";
     public static final String PREF_FC_ON_DISMISS = "fcOnDismiss";
@@ -26,13 +27,15 @@ public class PreferenceUtils {
     public static final String PREF_FORCE_MD_ICONS = "forceMdIcons";
     public static final String PREF_PLAYER_ENABLED = "playerEnabled%s";
     public static final String PREF_TUTORIAL = "tutorial";
+    public static final String PREF_SHELL = "shell";
     public static final String PREF_TUTORIAL_PLAYERS = "tutorialPlayers";
 
     public static final int COLOR_METHOD_DOMINANT = 0;
     public static final int COLOR_METHOD_PRIMARY = 1;
     public static final int COLOR_METHOD_VIBRANT = 2;
     public static final int COLOR_METHOD_MUTED = 3;
-    public static final int COLOR_METHOD_DEFAULT = 4;
+    public static final int COLOR_METHOD_PHONOGRAPH = 4;
+    public static final int COLOR_METHOD_DEFAULT = 5;
 
     public static final int CONTROLS_METHOD_NONE = 0;
     public static final int CONTROLS_METHOD_AUDIO_MANAGER = 1;
@@ -40,5 +43,6 @@ public class PreferenceUtils {
     public static final int CONTROLS_METHOD_BROADCAST = 3;
     public static final int CONTROLS_METHOD_BROADCAST_STRING = 4;
     public static final int CONTROLS_METHOD_BROADCAST_PARCELABLE = 5;
+    public static final int CONTROLS_METHOD_SHELL_ROOT = 6;
 
 }

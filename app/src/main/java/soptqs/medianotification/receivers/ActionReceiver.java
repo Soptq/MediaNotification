@@ -8,12 +8,17 @@ import android.media.AudioManager;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import java.io.OutputStream;
+
 import soptqs.medianotification.utils.PreferenceUtils;
 
-public class ActionReceiver extends BroadcastReceiver {
+public class  ActionReceiver extends BroadcastReceiver {
+
+    private OutputStream os;
 
     public static final String EXTRA_KEYCODE = "james.medianotification.EXTRA_KEYCODE";
     public static final String EXTRA_PACKAGE = "james.medianotification.EXTRA_PACKAGE";
@@ -23,6 +28,7 @@ public class ActionReceiver extends BroadcastReceiver {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         int keycode = intent.getIntExtra(EXTRA_KEYCODE, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
         String packageName = intent.getStringExtra(EXTRA_PACKAGE);
+        Log.e("keycode", "onReceive: "+keycode);
 
         switch (prefs.getInt(PreferenceUtils.PREF_MEDIA_CONTROLS_METHOD, PreferenceUtils.CONTROLS_METHOD_NONE)) {
             case PreferenceUtils.CONTROLS_METHOD_AUDIO_MANAGER:
@@ -39,6 +45,9 @@ public class ActionReceiver extends BroadcastReceiver {
                 break;
             case PreferenceUtils.CONTROLS_METHOD_BROADCAST_PARCELABLE:
                 sendKeyPressBroadcastParcelable(context, keycode, packageName);
+                break;
+            case PreferenceUtils.CONTROLS_METHOD_SHELL_ROOT:
+                sendKeyPressShellCommand(keycode);
                 break;
         }
     }
@@ -151,6 +160,22 @@ public class ActionReceiver extends BroadcastReceiver {
             intent.setPackage(packageName);
 
         context.sendOrderedBroadcast(intent, null);
+    }
+
+    public void sendKeyPressShellCommand(int keyCode){
+        exec("input keyevent " + keyCode + "\n");
+    }
+
+    public final void exec(String cmd) {
+        try {
+            if (os == null) {
+                os = Runtime.getRuntime().exec("su").getOutputStream();
+            }
+            os.write(cmd.getBytes());
+            os.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

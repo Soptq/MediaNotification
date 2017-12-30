@@ -7,6 +7,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
     <application
         android:name="soptqs.medianotification.MediaNotification"
@@ -17,6 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:name">
+        <!--android:debuggable="true">-->
 
         <activity
             android:name="soptqs.medianotification.activities.MainActivity"
@@ -43,6 +49,19 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="BUGLY_APPID"
+            android:value="55bd533027" />
+        <meta-data
+            android:name="BUGLY_APP_VERSION"
+            android:value="1.0.4" />
+        <meta-data
+            android:name="BUGLY_APP_CHANNEL"
+            android:value="Coolapk" />
+        <meta-data
+            android:name="BUGLY_ENABLE_DEBUG"
+            android:value="true" />
     </application>
 
 </manifest>

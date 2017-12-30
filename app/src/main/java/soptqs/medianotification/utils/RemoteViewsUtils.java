@@ -12,6 +12,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 public class RemoteViewsUtils {
 
     public static final String NETEASE_CLOUDMUSIC_PACKAGE_NAME = "com.netease.cloudmusic";
@@ -63,10 +65,12 @@ public class RemoteViewsUtils {
 
                     // Store the actual string
                     String t = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(parcel).toString().trim();
+                    Log.e(TAG, "findNeteaseMusicCurrentStates: "+t );
                     text.add(t);
                 } else if ("setImageResource".equals(methodName)) {
                     parcel.readInt();
 
+                    Log.e(TAG, "findNeteaseMusicCurrentStates: "+ String.valueOf(parcel.readInt()));
                     text.add(String.valueOf(parcel.readInt()));
                 }
 

@@ -10,6 +10,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.SwitchCompat;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,18 +31,29 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher;
+
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 import james.colorpickerdialog.dialogs.ColorPickerDialog;
 import james.colorpickerdialog.dialogs.PreferenceDialog;
+import soptqs.medianotification.MediaNotification;
 import soptqs.medianotification.R;
 import soptqs.medianotification.activities.MainActivity;
+import soptqs.medianotification.data.ContributorData;
+import soptqs.medianotification.receivers.ActionReceiver;
 import soptqs.medianotification.services.NotificationService;
+import soptqs.medianotification.utils.ChecksModule;
 import soptqs.medianotification.utils.PreferenceUtils;
-import soptqs.medianotification.utils.ShellUtils;
 import soptqs.medianotification.views.ColorImageView;
 
 public class SettingsFragment extends BaseFragment {
@@ -61,10 +74,15 @@ public class SettingsFragment extends BaseFragment {
     private SwitchCompat killProcessSwitch;
     private SwitchCompat cancelOriginalNotificationSwitch;
     private View mediaControls;
+    private ImageView aboutControlDefault;
     private View storagePermission;
     private Button storagePermissionButton;
+    private View shellPermission;
+    private Button shellPermissionButton;
+    private Button shellIgnore;
     private SwitchCompat albumArtSwitch;
     private SwitchCompat lastFmSwitch;
+    private SwitchCompat tencentMusicSwitch;
     private View rootPermission;
     private Button rootPermissionButton;
     private SwitchCompat receiverSwitch;
@@ -74,11 +92,6 @@ public class SettingsFragment extends BaseFragment {
 
     private SharedPreferences prefs;
 
-    String[] commandlist = new String[]{
-            "mount -o rw,remount /system",
-            "mkdir -p -m 755 /system/app/Medianotification",
-            "cp /data/app/soptqs.medianotification-1/* /system/app/Medianotification"
-    };
 
 
 
@@ -100,10 +113,15 @@ public class SettingsFragment extends BaseFragment {
         killProcessSwitch = view.findViewById(soptqs.medianotification.R.id.killProcessSwitch);
         cancelOriginalNotificationSwitch = view.findViewById(soptqs.medianotification.R.id.cancelOriginalNotificationSwitch);
         mediaControls = view.findViewById(soptqs.medianotification.R.id.mediaControls);
+        aboutControlDefault = view.findViewById(R.id.aboutControlDefault);
         storagePermission = view.findViewById(soptqs.medianotification.R.id.storagePermission);
         storagePermissionButton = view.findViewById(soptqs.medianotification.R.id.storagePermissionButton);
-        albumArtSwitch = view.findViewById(soptqs.medianotification.R.id.albumArtSwitch);
+        shellPermission = view.findViewById(R.id.ShellPermission);
+        shellPermissionButton = view.findViewById(R.id.shellPermissionButton);
+        shellIgnore = view.findViewById(R.id.shellignore);
+        albumArtSwitch = view.findViewById(R.id.albumArtSwitch);
         lastFmSwitch = view.findViewById(soptqs.medianotification.R.id.lastFmSwitch);
+        tencentMusicSwitch = view.findViewById(R.id.tencentMusicSwitch);
         rootPermission = view.findViewById(soptqs.medianotification.R.id.rootPermission);
         rootPermissionButton = view.findViewById(soptqs.medianotification.R.id.rootPermissionButton);
         receiverSwitch = view.findViewById(soptqs.medianotification.R.id.receiverSwitch);
@@ -114,6 +132,28 @@ public class SettingsFragment extends BaseFragment {
 
         boolean isTutorial = prefs.getBoolean(PreferenceUtils.PREF_TUTORIAL, true);
         tutorial.setVisibility(isTutorial ? View.VISIBLE : View.GONE);
+        boolean isShell = prefs.getBoolean(PreferenceUtils.PREF_SHELL, true);
+        shellPermission.setVisibility(isShell ? View.VISIBLE : View.GONE);
+
+
+        shellIgnore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prefs.edit().putBoolean(PreferenceUtils.PREF_SHELL, false).apply();
+                shellPermission.setVisibility(View.GONE);
+            }
+        });
+
+        shellPermissionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Process root = Runtime.getRuntime().exec("su");
+                } catch (IOException e){}
+
+            }
+        });
+
 
         tutorialLearnMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,6 +289,22 @@ public class SettingsFragment extends BaseFragment {
             }
         });
 
+        aboutControlDefault.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.title_about_control_method)
+                        .setMessage(R.string.desc_control_method)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
+
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
             storagePermission.setVisibility(View.GONE);
         storagePermissionButton.setOnClickListener(new View.OnClickListener() {
@@ -258,13 +314,19 @@ public class SettingsFragment extends BaseFragment {
             }
         });
 
+
         albumArtSwitch.setChecked(prefs.getBoolean(PreferenceUtils.PREF_SHOW_ALBUM_ART, true));
         albumArtSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 prefs.edit().putBoolean(PreferenceUtils.PREF_SHOW_ALBUM_ART, b).apply();
-                if (!b && lastFmSwitch.isChecked())
-                    lastFmSwitch.setChecked(false);
+                {
+                    if (!b && lastFmSwitch.isChecked())
+                        lastFmSwitch.setChecked(false);
+                    if (!b && tencentMusicSwitch.isChecked())
+                        tencentMusicSwitch.setChecked(false);
+
+                }
                 updateNotification();
             }
         });
@@ -274,8 +336,26 @@ public class SettingsFragment extends BaseFragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 prefs.edit().putBoolean(PreferenceUtils.PREF_USE_LASTFM, b).apply();
-                if (b && !albumArtSwitch.isChecked())
-                    albumArtSwitch.setChecked(true);
+                {
+                    if (b && !albumArtSwitch.isChecked())
+                        albumArtSwitch.setChecked(true);
+                    if (b && tencentMusicSwitch.isChecked())
+                        tencentMusicSwitch.setChecked(false);
+                }
+            }
+        });
+
+        tencentMusicSwitch.setChecked(prefs.getBoolean(PreferenceUtils.PREF_USE_TENCENTMUSIC, false));
+        tencentMusicSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean b) {
+                prefs.edit().putBoolean(PreferenceUtils.PREF_USE_TENCENTMUSIC, b).apply();
+                {
+                    if (b && !albumArtSwitch.isChecked())
+                        albumArtSwitch.setChecked(true);
+                    if (b && lastFmSwitch.isChecked())
+                        lastFmSwitch.setChecked(false);
+                }
             }
         });
 
@@ -350,19 +430,65 @@ public class SettingsFragment extends BaseFragment {
 
     @Override
     public void onTutorial() {
-        if (tutorial != null)
+        if (tutorial != null) {
             tutorial.setVisibility(View.VISIBLE);
+        }
     }
 
 
     public void downloadmodule(){
-        String downURL = "https://raw.githubusercontent.com/Soptq/MediaNotification/Coolapk/MediaNotification4Magisk.zip";
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downURL));
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalFilesDir(getActivity(), Environment.DIRECTORY_DOWNLOADS, "MediaNotification4Magisk.zip");
-        DownloadManager manager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-        long downloadId = manager.enqueue(request);
-        Toast.makeText(getContext(),R.string.download,Toast.LENGTH_LONG).show();
+//        boolean checks = ChecksModule.checksMod.checksMod();
+
+//        ChecksModule方法还没有做好，主要是boolean不知道怎么返回值
+
+        boolean checks = false;
+        if (checks){
+            AlertDialog.Builder downloadmod = new AlertDialog.Builder(getActivity());
+            downloadmod.setCancelable(true);
+            downloadmod.setTitle(R.string.daemon_ready_to_download);
+            downloadmod.setMessage(R.string.sure_to_download);
+            downloadmod.setPositiveButton(R.string.change_log_comfirm, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String downURL = "https://raw.githubusercontent.com/Soptq/MediaNotification/Coolapk/MediaNotification4Magisk" + getResources().getString(R.string.app_version) + ".zip";
+                    DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downURL));
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                    request.setDestinationInExternalFilesDir(getActivity(), Environment.DIRECTORY_DOWNLOADS, "MediaNotification4Magisk.zip");
+                    DownloadManager manager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+                    long downloadId = manager.enqueue(request);
+                    Toast.makeText(getContext(),R.string.download,Toast.LENGTH_LONG).show();
+                }
+
+            }).setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            downloadmod.create().show();
+        }else {
+            AlertDialog.Builder downloadfail = new AlertDialog.Builder(getActivity());
+            downloadfail.setCancelable(true);
+            downloadfail.setTitle(R.string.daemon_download_fail);
+            downloadfail.setMessage(R.string.daemon_download_fail_decp);
+            downloadfail.setPositiveButton(R.string.bugReport, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    IssueReporterLauncher.forTarget("Soptq", "Medianotification_bug")
+                            .theme(R.style.Theme_App_Dark)
+                            .putExtraInfo("Info 1", "logcat")
+                            .putExtraInfo("Info 2", true)
+                            .guestToken("d2bee92043ecb15c55abae5432db8ed955858d09")
+                            .launch(getActivity());
+                }
+
+            }).setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            downloadfail.create().show();
+        }
+
     }
 
     public void copyapk(){
@@ -374,8 +500,10 @@ public class SettingsFragment extends BaseFragment {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivity(intent);
+                intent.setType("*/*");
+//                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                Intent chooser = Intent.createChooser(intent,"Open...");
+                startActivity(chooser);
                 Toast.makeText(getContext(),R.string.reboot,Toast.LENGTH_LONG).show();
             }
         })
@@ -386,4 +514,5 @@ public class SettingsFragment extends BaseFragment {
                 });
         builder.create().show();
     }
+
 }

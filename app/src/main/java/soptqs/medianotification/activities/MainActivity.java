@@ -2,6 +2,7 @@ package soptqs.medianotification.activities;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import android.view.animation.AccelerateInterpolator;
 
 import com.heinrichreimersoftware.androidissuereporter.IssueReporterActivity;
 import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.logging.LogRecord;
 
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CrashReport.initCrashReport(getApplicationContext());
         setContentView(soptqs.medianotification.R.layout.activity_main);
         toolbar = findViewById(soptqs.medianotification.R.id.toolbar);
         tabLayout = findViewById(soptqs.medianotification.R.id.tabLayout);
@@ -98,6 +101,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case soptqs.medianotification.R.id.action_changelog:
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setPositiveButton(R.string.change_log_comfirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
                 builder.setTitle(soptqs.medianotification.R.string.changelog);
                 builder.setMessage(soptqs.medianotification.R.string.changelogcontent);
                 builder.create().show();
@@ -113,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         .theme(R.style.Theme_App_Dark)
                         .putExtraInfo("Info 1", "logcat")
                         .putExtraInfo("Info 2", true)
-                        .guestToken("1877292a749607f40a5c7db3cf0a6e3f4be05cbf")
+                        .guestToken("d2bee92043ecb15c55abae5432db8ed955858d09")
                         .launch(MainActivity.this);
                 break;
         }

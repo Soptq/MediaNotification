@@ -68,3 +68,8 @@ app/src/main/res/values/api_keys.xml
 app/src/main/res/values/api_keys.xml
 app/src/main/res/values-zh-rCN/api_keys.xml
 app/src/main/res/values-zh-rHK/api_keys.xml
+app/src/.DS_Store
+app/src/.DS_Store
+app/src/main/.DS_Store
+app/build.gradle
+app/src/main/res/.DS_Store

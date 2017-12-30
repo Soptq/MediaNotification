@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Media Notification</string>
+    <string name="app_version">1.0.3</string>
     <string name="title_settings">Customize</string>
     <string name="title_players">Players</string>
     <string name="title_supported_players">Supported Players</string>
@@ -18,11 +19,11 @@
     <string name="msg_permission_granted">Success! Permission granted.</string>
     <string name="msg_app_ops_denied">android.permission.UPDATE_APP_OPS_STATS is not granted.</string>
     <string name="title_check_permission">Check Permission</string>
-    <string name="title_last_fm">Fetch missing album art from Last.fm</string>
+    <string name="title_last_fm">Fetch missing album art from last.fm</string>
     <string name="msg_readme_error">Couldn\'t fetch README，Internet disconnected</string>
     <string name="title_default_player">Default Music Player</string>
     <string name="desc_default_player">If the app cannot detect a music player when the notification is clicked on, then you can set a default app for it to launch instead.</string>
-    <string name="title_always_dismissible">Always Make Notification missible</string>
+    <string name="title_always_dismissible">Always Make Notification dismissible</string>
     <string name="title_kill_process">Kill Processes On Dismiss (Unsafe)</string>
     <string name="msg_reflection_error">Could not send the key event through reflection: %s</string>
     <string name="title_media_controls">Media Controls Method (Unreliable)</string>
@@ -63,7 +64,11 @@
     <string name="top_2">Beautiful Notification</string>
     <string name="noti_decp">Android Oreo Style</string>
     <string name="top_3">Come And Have A Try</string>
-    <string name="fin_decp">Don\'t forget to read "help" first,it includes many useful hints</string>
+    <string name="fin_decp">Don\'t forget to read "help" first, it includes many useful hints</string>
+    <string name="top_4">Auto Fetch Arts</string>
+    <string name="noti_decp_2">From Audioscrobbler or Tencent Music</string>
+    <string name="top_5">Find helps</string>
+    <string name="noti_decp_3"><b>Before using,please be sure that all your players have make the notification the system\'s style in order to let MediaNotification works properly.</b> Please read "help" section carefully before asking,and please try to feedback by using built-in feedback function</string>
     <string name="readme">https://raw.githubusercontent.com/TheAndroidMaster/MediaNotification/master/README.md</string>
     <string name="local">ENGLISH</string>
     <string name="isplaying">Playing</string>
@@ -72,21 +77,40 @@
     <string name="title_daemon_option1">Option One</string>
     <string name="daemon_decp1">Copy MediaNotification.apk from /data/app/soptqs.medianotification to /system/app/"YOUR FOLDER" by Using Root Access to make it a system app,you can also do it manually which is much safer,it will let MediaNotification stay alive and response your music notification at any time.However,you need to uninstall it manually.</string>
     <string name="daemon_button1">Copy</string>
-    <string name="title_daemon_option2">Option Two(Recommend)</string>
-    <string name="daemon_decp2">NEED MAGISK MANAGER.Copy MediaNotification.apk by Using Magisk.It has the same effect as Option One but you can uninstall it just by disable it in Magisk Manager</string>
+    <string name="title_daemon_option2">Option Two (Recommend)</string>
+    <string name="daemon_ready_to_download">Ready to download</string>
+    <string name="sure_to_download">Comfirm to download?</string>
+    <string name="daemon_download_fail">No module fetch MediaNotification\'s version</string>
+    <string name="daemon_download_fail_decp">Looks like the developer is still working on the module. Please wait a bit.</string>
+    <string name="daemon_decp2">NEED MAGISK MANAGER.Copy MediaNotification.apk by Using Magisk. It has the same effect as Option One but you can uninstall it just by disable it in Magisk Manager</string>
     <string name="daemon_button2">Download module</string>
-    <string name="reboot">Reboot to applay,if it failed,please do it manually</string>
+    <string name="reboot">Reboot to apply, if it failed,please do it manually</string>
     <string name="title_alert_copy">Option One</string>
+    <string name="change_log_comfirm">Comfirm</string>
     <string name="title_alert_copy_decp">
         Medianotification is here\n
-        /data/app/soptqs.medianotification\n
+        \n
+        -----/data/app/soptqs.medianotification\n
+        \n
         you need to cut it to\n
-        /system/app/"Your New Folder"\n
+        \n
+        -----/system/app/"Your New Folder"\n
     </string>
     <string name="yes">Yes</string>
     <string name="Cancel">Cancel</string>
     <string name="download">Downloading</string>
-    <string name="bugReport">Report bug</string>
+    <string name="bugReport">Report</string>
+    <string name="title_tencent_music">Fetch missing album art from Tencent Music</string>
+    <string name="title_shell">Root Access (Optional)</string>
+    <string name="decp_shell">Get root access to control music by using shell command, you can enable shell control method in "Media Control Method".This method is stable but a bit slow. I am trying to make it faster</string>
+    <string name="button_shell">Grant Root Access</string>
+    <string name="title_ignore">Ignore</string>
+    <string name="title_about_control_method">Control Methods</string>
+    <string name="desc_control_method">Now the control methods is much stable than before. To Use control methods, you need to block the original music notification by long press the notification and choose "block all". You should try methods from top to botton because the last one is the most slow and even need Root access. However, i promise you that the last one is the most stable one and have the maximum compatibility.</string>
+    <string name="title_donate">Donate</string>
+    <string name="decp_donate">Now i had written over 3000 lines codes and it costs many time to maintain it. So i will really appreciate it if you support me. Thanks</string>
+    <string name="donate_wechat">Wechat</string>
+    <string name="donate_alipay">Alipay</string>
 
 
     <string-array name="array_color_methods">
@@ -94,6 +118,7 @@
         <item>Primary</item>
         <item>Vibrant</item>
         <item>Muted</item>
+        <item>Phonograph</item>
         <item>Always Default</item>
     </string-array>
 
@@ -104,6 +129,42 @@
         <item>Broadcast</item>
         <item>Broadcast String</item>
         <item>Broadcast Parcelable</item>
+        <item>KeyEvent Simulation (Root and Slow)</item>
     </string-array>
+
+    <string name="air_title_report_issue">Report issue</string>
+
+    <string name="air_title_issue">Issue</string>
+    <string name="air_title_login">Login</string>
+
+    <string name="air_label_issue_title">Title</string>
+    <string name="air_label_issue_description">Description</string>
+    <string name="air_label_device_info">Device info</string>
+
+    <string name="air_label_use_account">Send using GitHub account</string>
+    <string name="air_label_use_email">Send using E-mail</string>
+    <string name="air_label_use_guest">Send anonymously</string>
+    <string name="air_label_username">Username</string>
+    <string name="air_label_password">Password</string>
+    <string name="air_label_email">E-mail</string>
+    <string name="air_label_email_optional">E-mail (optional)</string>
+
+    <string name="air_error_no_title">Please enter an issue title</string>
+    <string name="air_error_no_description">Please enter an issue description</string>
+    <plurals name="air_error_short_description">
+        <item quantity="one">The description must have at least %d character</item>
+        <item quantity="other">The description must have at least %d characters</item>
+    </plurals>
+    <string name="air_error_no_username">Please enter your valid GitHub username</string>
+    <string name="air_error_no_password">Please enter your valid GitHub password</string>
+    <string name="air_error_no_email">Please enter a e-mail address</string>
+
+    <string name="air_dialog_title_loading">Uploading report to GitHub…</string>
+    <string name="air_dialog_title_failed">Unable to send report</string>
+    <string name="air_dialog_description_failed_wrong_credentials">Wrong username or password</string>
+    <string name="air_dialog_description_failed_invalid_token">Invalid access token. Please contact the app developer.</string>
+    <string name="air_dialog_description_failed_issues_not_available">Issues are not enabled for the selected repository. Please contact the app developer.</string>
+    <string name="air_dialog_description_failed_unknown">An unexpected error occurred. Please contact the app developer.</string>
+    <string name="air_dialog_action_failed">OK</string>
 
 </resources>

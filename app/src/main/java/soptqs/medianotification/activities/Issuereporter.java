@@ -14,12 +14,16 @@ import soptqs.medianotification.R;
 
 public class Issuereporter extends IssueReporterActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.air_activity_issue_reporter);
         setMinimumDescriptionLength(10);
-        setGuestToken("28f479f73db97d912611b27579aad7a76ad2baf5");
+        setGuestToken("d2bee92043ecb15c55abae5432db8ed955858d09");
     }
+
+
 
     @Override
     public GithubTarget getTarget() {

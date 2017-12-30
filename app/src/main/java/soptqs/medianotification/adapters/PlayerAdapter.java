@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+import soptqs.medianotification.R;
 import soptqs.medianotification.services.NotificationService;
 import soptqs.medianotification.utils.PreferenceUtils;
 
@@ -274,7 +275,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.BaseViewHo
             enabledSwitch = itemView.findViewById(soptqs.medianotification.R.id.enabledSwitch);
             openButton = itemView.findViewById(soptqs.medianotification.R.id.openButton);
             defaultButton = itemView.findViewById(soptqs.medianotification.R.id.defaultButton);
-            aboutDefault = itemView.findViewById(soptqs.medianotification.R.id.aboutDefault);
+            aboutDefault = itemView.findViewById(R.id.aboutDefault);
         }
     }
 

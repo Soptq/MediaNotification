@@ -1,7 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="changelogcontent">
-        <strong>Version 1.0.2</strong>\n
+        <b>Please try to feedback at "Feedback" section, you can try to send anonmously if you don\'t have a Github account, it may let you feel anonying, but it will save me a lot of times. Thanks</b>\n
+        \n
+        <b>Version 1.0.4</b>\n
+        \n
+        - Fixed small bugs\n
+        - Introducing a new color picking method -- "Phonograpg"\n
+          note: this method is completely simulate phonograpg\'s picking method, which looks really good\n
+        - Add Music Player\'s small icon in notification\n
+          note: when you block nothing, Medianotification will get the player\'s small icon automatically. However, if you block the player's notification, Medianotification can only use local player icons. Now there are only 2 player\'s icon can be used:Cloud Music and Phonograph. You can tell me the player\'s name so i can add it.\n
+        - Now you can block Phonograph and Retro Music\'s notification in SystemUI because Medianotification is fully support these two players.\n
+          note: Unfortunately you can not block Cloud Music in SystemUI now, because Cloud Music changed too many things and i haven\'t found a suitble way to judge its situation. Please be paient and i will find it one day.\n
+          Also, players which do not use Android API like Tencent QQ music or Poweramp are now not supported at all. I am very sorry.\n
+        - Broadcast is now working, you won\'t listen to the next music when you press "Play" button ant more.\n
+        - Fixed a broadcast bug which leads to the wrong keycode\n
+        - Fixed Bitmap error\n
+        - Synced translation\n
+        \n
+        \n
+        \n
+        <b>Version 1.0.3</b>\n
+        \n
+        - Fixed a lots of bugs\n
+        - Make app can fetch arts from Tencent Music\n
+        - Add more helps\n
+        - Translate "Feedback" section\n
+        - Add a github token to let you feedback annoymously\n
+        - Auto crop and scale the art when the art is too long\n
+        - Improve color picking performance\n
+        - Try to fix the problem that the Cloud Music Player shuts down automatically\n
+        - Links to Tencent Bugly Plantform to collect bugs and logs\n
+        - Sync translation\n
+        \n
+        \n
+        \n
+        <b>Version 1.0.2</b>\n
+        \n
         - Add raditional Chinese traslation support\n
         - Add Bug reporter to help report to Github\n
         - Fixed some bugs\n
@@ -14,7 +49,8 @@
         \n
         \n
         \n
-        <strong>Version 1.0.1</strong>\n
+        <b>Version 1.0.1</b>\n
+        \n
         - Add Chinese traslation support\n
         - Optimize color algorithms\n
         - Optimize logic\n
@@ -28,5 +64,7 @@
         <i>However,if you dont have a Github account,then you can only post your idea in comment area,but dont forget to @me</i>\n
         <i>You can find my github URL at "help"</i>\n
         \n
-        <strong>Version 1.0.0</strong>
+        \n
+        <b>Version 1.0.0</b>
+        \n
     </string></resources>

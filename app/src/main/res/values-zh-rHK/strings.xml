@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">媒體通知</string>
+    <string name="app_version">1.0.3</string>
     <string name="title_settings">自定義設置</string>
     <string name="title_players">播放器</string>
     <string name="title_supported_players">支持的播放器</string>
@@ -18,11 +19,11 @@
     <string name="msg_permission_granted">成功！權限已經被授予</string>
     <string name="msg_app_ops_denied">android.permission.UPDATE_APP_OPS_STATS 權限沒有被授予</string>
     <string name="title_check_permission">檢查權限</string>
-    <string name="title_last_fm">從Last.fm獲取音樂封面</string>
+    <string name="title_last_fm">從last.fm獲取音樂封面</string>
     <string name="msg_readme_error">不能獲取ReadMe,網酪錯誤</string>
     <string name="title_default_player">默認音樂播放器</string>
     <string name="desc_default_player">如果應用程序在點擊通知時無法檢測到音樂播放器，則可以設置默認應用程序來啟動。</string>
-    <string name="title_always_dismissible">始終使應用程序通知可以被劃去</string>
+    <string name="title_always_dismissible">始終使應用程序通知不可以被劃去</string>
     <string name="title_kill_process">劃去通知後關閉應用程序(不安全)</string>
     <string name="msg_reflection_error">不能再反射過程中發送關鍵事件: %s</string>
     <string name="title_media_controls">音樂控制方法(不可靠)</string>
@@ -64,6 +65,10 @@
     <string name="noti_decp">Android Oreo 風格</string>
     <string name="top_3">快來嘗試壹下</string>
     <string name="fin_decp">不要忘記閱讀"幫助"，裏面有許多有用的技巧與提示</string>
+    <string name="top_4">自動匹配音樂封面</string>
+    <string name="noti_decp_2">從 Audioscrobbler 和 騰訊音樂 獲取音樂封面</string>
+    <string name="top_5">尋找幫助</string>
+    <string name="noti_decp_3"><b>在使用之前，請確認您的播放器在設置中開啟了"系統狀態欄樣式"（例如網易雲音樂），這將幫助媒體通知正確顯示樣式。</b>請在遇到問題時先仔細閱讀"幫助"欄,然後在反饋時請盡量使用內置的反饋器</string>
     <string name="readme">https://github.com/Soptq/MediaNotification/blob/China/README_zh.md</string>
     <string name="local">CHINESE</string>
     <string name="isplaying">播放中</string>
@@ -73,26 +78,47 @@
     <string name="daemon_decp1">需要Root權限來掛載根目錄讀寫權限。使用外部文件遊覽器來從/data/app/soptqs.medianotification復制MediaNotification.apk到/system/app/"您新建的文件夾"來使該應用成為壹個系統應用,您可以手動地更安全地復制這個文件。使應用程序成為系統應用將保持應用的後臺開啟，這會讓該應用隨時響應您的音樂通知欄請求.但是，當您想卸載該應用時，您可能需要手動操作。</string>
     <string name="daemon_button1">復制</string>
     <string name="title_daemon_option2">方法二（推薦）</string>
-    <string name="daemon_decp2">需要Magisk Manager。使用模塊將MediaNotification.apk復制到系統app目錄.這和方法壹有同洋的作用但是您可以間單的在Magisk Manager中關閉這個模塊來使其可以被卸載</string>
+    <string name="daemon_ready_to_download">準備下載</string>
+    <string name="sure_to_download">確定下載?</string>
+    <string name="daemon_download_fail">還沒有模塊適配當前版本</string>
+    <string name="daemon_download_fail_decp">看起來開發者正在適配中，為何不等等</string>
+    <string name="daemon_decp2">需要Magisk Manager。使用模塊將MediaNotification.apk復制到系統app目錄。這和方法壹有同洋的作用但是您可以間單的在Magisk Manager中關閉這個模塊來使其可以被卸載。</string>
     <string name="daemon_button2">下載模塊</string>
     <string name="reboot">重啟以生效，如果重啟後發現復制失敗，請手動替換。</string>
     <string name="title_alert_copy">方法壹</string>
+    <string name="change_log_comfirm">確定</string>
     <string name="title_alert_copy_decp">
         Medianotification 在這裏\n
-        /data/app/soptqs.medianotification\n
+        \n
+        -----/data/app/soptqs.medianotification\n
+        \n
         您需要把它剪貼到\n
-        /system/app/"您的文件夾"\n
+        \n
+        -----/system/app/"您的文件夾"\n
     </string>
     <string name="yes">是的</string>
     <string name="Cancel">取消</string>
     <string name="download">下載中</string>
-    <string name="bugReport">報告問題</string>
+    <string name="bugReport">報告</string>
+    <string name="title_tencent_music">從騰訊獲取音樂封面</string>
+    <string name="title_shell">Root權限（可選）</string>
+    <string name="decp_shell">使用Root權限來用Shell命令模擬按鍵控制音樂，您可以在"音樂控制方法"中開啟使用Shell控制的功能。這種方法很穩定，但是反應有壹點慢。我正在嘗試讓它反應得更快</string>
+    <string name="button_shell">授予Root權限</string>
+    <string name="title_ignore">不再顯示</string>
+    <string name="title_about_control_method">音樂控制方法</string>
+    <string name="desc_control_method">現在的音樂控制方法比以前要穩定得多。要使用音樂控制方法，您需要先長按通知欄中的音樂通知，並選擇“全部阻止”來阻止原始音樂通知。你應該從頂部到底部一個個的嘗試方法，因為越後面的越慢。最後一個方法甚至需要Root權限，但是，我可以肯定，最後一個最穩定且擁有最大的兼容性。 </string>
+    <string name="title_donate">捐贈</string>
+    <string name="decp_donate">現在我為這款應用已經寫了超過3000行代碼，總數佔了整款應用的30%。維護這款應用，為他添加新功能花費我很多的時間，有時修復一個bug要花費一整天。所以如果您能捐贈我一點餘頭的話我真的會很感謝。謝謝您</string>
+    <string name="donate_wechat">微信</string>
+    <string name="donate_alipay">支付寶</string>
+
 
     <string-array name="array_color_methods">
         <item>優勢</item>
         <item>主要</item>
         <item>活力</item>
         <item>柔和</item>
+        <item>點唱機</item>
         <item>默認</item>
     </string-array>
 
@@ -103,6 +129,42 @@
         <item>Broadcast</item>
         <item>Broadcast String</item>
         <item>Broadcast Parcelable</item>
+        <item>模擬按鈕 (Root)</item>
     </string-array>
+
+    <string name="air_title_report_issue">報告問題</string>
+
+    <string name="air_title_issue">報告</string>
+    <string name="air_title_login">登錄</string>
+
+    <string name="air_label_issue_title">標題</string>
+    <string name="air_label_issue_description">描述</string>
+    <string name="air_label_device_info">設備信息</string>
+
+    <string name="air_label_use_account">用您的Github賬號發送</string>
+    <string name="air_label_use_email">用Email發送</string>
+    <string name="air_label_use_guest">匿名發送</string>
+    <string name="air_label_username">用戶名</string>
+    <string name="air_label_password">密碼</string>
+    <string name="air_label_email">E-mail</string>
+    <string name="air_label_email_optional">E-mail (選填)</string>
+
+    <string name="air_error_no_title">請輸入壹個標題</string>
+    <string name="air_error_no_description">請輸入壹段描述</string>
+    <plurals name="air_error_short_description">
+        <item quantity="one">描述至少需要 %d 個字</item>
+        <item quantity="other">描述至少需要 %d 個字</item>
+    </plurals>
+    <string name="air_error_no_username">請輸入您的Github用戶名</string>
+    <string name="air_error_no_password">請輸入您的Github密碼</string>
+    <string name="air_error_no_email">請輸入您的E-mail</string>
+
+    <string name="air_dialog_title_loading">正在上傳至Github…</string>
+    <string name="air_dialog_title_failed">無法發送報告</string>
+    <string name="air_dialog_description_failed_wrong_credentials">錯誤的用戶名或密碼</string>
+    <string name="air_dialog_description_failed_invalid_token">無效的身份密鑰。請聯系開發者。</string>
+    <string name="air_dialog_description_failed_issues_not_available">反饋功能在這個Github庫並沒有被開啟。請聯系開發者。</string>
+    <string name="air_dialog_description_failed_unknown">其他錯誤。請聯系開發者。</string>
+    <string name="air_dialog_action_failed">確認</string>
 
 </resources>

@@ -14,8 +14,23 @@ import android.support.annotation.DrawableRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.util.Log;
+
+import com.jayway.jsonpath.JsonPath;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import soptqs.medianotification.R;
 
 public class ImageUtils {
+
 
     public static Bitmap getVectorBitmap(Context context, @DrawableRes int id) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
@@ -106,5 +121,101 @@ public class ImageUtils {
 
         return result;
     }
+
+    /**
+
+     * @param bitmap      原图
+     * @return  缩放截取正中部分后的位图。
+     */
+    public static Bitmap centerSquareScaleBitmap(Bitmap bitmap)
+    {
+
+
+        int edgeLength;
+        int widthOrg = bitmap.getWidth();
+        int heightOrg = bitmap.getHeight();
+        int xTopLeft;
+        int yTopLeft;
+
+
+        if(null == bitmap)
+        {
+            return  null;
+        }
+
+        Bitmap result = bitmap;
+
+        if (widthOrg >= heightOrg) edgeLength = heightOrg;
+                else edgeLength = widthOrg;
+
+
+        if (widthOrg >=0 || heightOrg >= 0) {
+            //从图中截取正中间的正方形部分。
+            if (widthOrg != heightOrg) {
+                edgeLength = heightOrg;
+                xTopLeft = (widthOrg - edgeLength) / 2;
+                yTopLeft = (heightOrg - edgeLength) / 2;
+                result = Bitmap.createBitmap(bitmap, xTopLeft, yTopLeft, edgeLength - 1, edgeLength - 1, null, false);
+                return result;
+            } else if (widthOrg == heightOrg) {
+                result = bitmap;
+                return result;
+            }
+        }
+
+        return result;
+    }
+
+////    渐变处理
+//
+//    public static Bitmap masklargeicon(Bitmap maskBitmap,Bitmap bitmap){
+//
+//        final int WITHOUT = -1;
+//        final int FRAME = 0;
+//        final int MASK = 1;
+//
+//        int[] mask = new int[]{
+//                WITHOUT, R.drawable.icon_mask
+//        };
+//
+//        int length = bitmap.getWidth();
+//
+//        Bitmap resultBitmap = Bitmap.createBitmap(length, length, Bitmap.Config.ARGB_8888);
+//        maskBitmap = Bitmap.createScaledBitmap(maskBitmap,length,length,false);
+//
+//        int[] picPixels = new int[length*length];
+//        int[] maskPixels = new int[length*length];
+//        Log.e("mask", "lenth: "+length);
+//        Log.e("mask", "bitmapw"+bitmap.getWidth());
+//        Log.e("mask", "bitmaph: "+bitmap.getHeight());
+//        Log.e("mask", "maskbitmapw"+maskBitmap.getWidth());
+//        Log.e("mask", "maskbitmaph: "+maskBitmap.getHeight());
+//
+//        bitmap.getPixels(picPixels,0, length,0,0, length, length);
+//        maskBitmap.getPixels(maskPixels,0, length,0,0, length, length);
+//
+////        for(int i = 0; i < maskPixels.length; i++){
+////            if(maskPixels[i] == 0xFF000000){
+////                picPixels[i] = 0;
+////            }else if(maskPixels[i] == 0){
+////                //donothing
+////            }else{
+////                //把mask的a通道应用与picBitmap
+//////                maskPixels[i] &= 0xFF000000;
+////                maskPixels[i] = 0xFF000000 - maskPixels[i];
+//////                picPixels[i] &= 0x00FFFFFF;
+//////                picPixels[i] |= maskPixels[i];
+////            }
+////        }
+//
+//        //生成前置图片添加蒙板后的bitmap:resultBitmap
+//        resultBitmap.setPixels(picPixels, 0, length, 0, 0, length, length);
+//
+//        return resultBitmap;
+//    }
+
+
+
+
 
 }

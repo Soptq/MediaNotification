@@ -36,11 +36,14 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.jayway.jsonpath.JsonPath;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -65,7 +68,7 @@ import soptqs.medianotification.utils.PlayerUtils;
 import soptqs.medianotification.utils.PreferenceUtils;
 import soptqs.medianotification.utils.RemoteViewsUtils;
 
-import static android.support.v4.app.NotificationCompat.PRIORITY_MAX;
+import static android.content.ContentValues.TAG;
 import static android.support.v4.app.NotificationCompat.VISIBILITY_PUBLIC;
 
 public class NotificationService extends NotificationListenerService {
@@ -73,6 +76,7 @@ public class NotificationService extends NotificationListenerService {
     public static final String ACTION_UPDATE = "james.medianotification.ACTION_UPDATE";
     public static final String ACTION_UPDATE_RECEIVER = "james.medianotification.ACTION_UPDATE_RECEIVER";
     public static final String ACTION_DELETE = "james.medianotification.ACTION_DELETE";
+    public static final String CLOUD_MUSIC_PLAYER = "网易云音乐";
 
     private List<PlayerData> players;
 
@@ -89,6 +93,8 @@ public class NotificationService extends NotificationListenerService {
     private String title;
     private String subtitle;
     private Bitmap largeIcon;
+    private Bitmap defautIcon;
+    private Bitmap mask;
     private PendingIntent contentIntent;
     private List<NotificationCompat.Action> actions;
     private List<Bitmap> actionIcons;
@@ -99,18 +105,22 @@ public class NotificationService extends NotificationListenerService {
     private PlayerData currentPlayer;
     private int persistence;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashReport.initCrashReport(getApplicationContext());
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mediaReceiver = new MediaReceiver();
 
+
         actions = new ArrayList<>();
         actionIcons = new ArrayList<>();
         players = PlayerUtils.getPlayers(this);
+
     }
 
     @Override
@@ -161,6 +171,9 @@ public class NotificationService extends NotificationListenerService {
             }
         }
         registerReceiver(mediaReceiver, filter);
+
+
+
     }
 
     @Override
@@ -306,7 +319,6 @@ public class NotificationService extends NotificationListenerService {
         if (notification.extras.containsKey(NotificationCompat.EXTRA_MEDIA_SESSION)
                 || RemoteViewsUtils.NETEASE_CLOUDMUSIC_PACKAGE_NAME.equals(sbn.getPackageName())) {
             Bundle extras = NotificationCompat.getExtras(notification);
-
             if (extras.containsKey(NotificationCompat.EXTRA_TITLE))
                 title = extras.getString(NotificationCompat.EXTRA_TITLE, title);
             if (extras.containsKey(NotificationCompat.EXTRA_TEXT))
@@ -320,33 +332,70 @@ public class NotificationService extends NotificationListenerService {
             } catch (PackageManager.NameNotFoundException ignored) {
             }
 
+//           @@ I dont really know why "if packagename == null" then give it a smallicon, so i disable it...
+
             if (packageName == null || !packageName.equals(sbn.getPackageName())) {
                 try {
                     appName = getPackageManager().getApplicationLabel(getPackageManager().getApplicationInfo(sbn.getPackageName(), PackageManager.GET_META_DATA)).toString();
                 } catch (PackageManager.NameNotFoundException ignored) {
                 }
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && notification.getSmallIcon() != null) {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && notification.getSmallIcon() != null) {
+//                    try {
+//                        smallIcon = ImageUtils.drawableToBitmap(notification.getSmallIcon().loadDrawable(this));
+//                    } catch (Resources.NotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//	            // Avoid invalid smallIcon bitmap
+//                if ((smallIcon == null || smallIcon.getWidth() <= 0
+//                        || smallIcon.getHeight() <= 0
+//                        || smallIcon.getByteCount() <= 4) && resources != null) {
+//                    smallIcon = ImageUtils.drawableToBitmap(ResourcesCompat.getDrawable(resources, notification.icon, resources.newTheme()));
+//                } else {
+//                    smallIcon = null;
+//                }
+            }
+
+//            Log.e(TAG, "onNotificationPosted: "+appName);
+//            @@获取播放器小图标
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+//                Log.e(TAG, "onNotificationPosted: smallicon packagename compareation" );
+
+                if (notification.getSmallIcon() != null) {
                     try {
                         smallIcon = ImageUtils.drawableToBitmap(notification.getSmallIcon().loadDrawable(this));
                     } catch (Resources.NotFoundException e) {
                         e.printStackTrace();
                     }
                 }
-	            // Avoid invalid smallIcon bitmap
-                if ((smallIcon == null || smallIcon.getWidth() <= 0
-                        || smallIcon.getHeight() <= 0
-                        || smallIcon.getByteCount() <= 4) && resources != null) {
-                    smallIcon = ImageUtils.drawableToBitmap(ResourcesCompat.getDrawable(resources, notification.icon, resources.newTheme()));
-                } else {
-                    smallIcon = null;
-                }
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && notification.getLargeIcon() != null)
-                largeIcon = ImageUtils.drawableToBitmap(notification.getLargeIcon().loadDrawable(this));
-            else if (notification.largeIcon != null)
-                largeIcon = notification.largeIcon;
+            Log.e(TAG, "smallicon bytecount: "+smallIcon.getByteCount());
+
+            if ((smallIcon == null || smallIcon.getWidth() <= 0
+                    || smallIcon.getHeight() <= 0
+                    || smallIcon.getByteCount() <= 4) && resources != null) {
+                smallIcon = ImageUtils.drawableToBitmap(ResourcesCompat.getDrawable(resources, notification.icon, resources.newTheme()));
+            }
+
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && notification.getLargeIcon() != null){
+                defautIcon = ImageUtils.drawableToBitmap(notification.getLargeIcon().loadDrawable(this));
+                largeIcon = ImageUtils.centerSquareScaleBitmap(defautIcon);
+//                defautIcon = ImageUtils.centerSquareScaleBitmap(defautIcon);
+//                largeIcon = ImageUtils.masklargeicon(mask,defautIcon);
+            }
+            else if (notification.largeIcon != null) {
+                defautIcon = notification.largeIcon;
+                largeIcon = ImageUtils.centerSquareScaleBitmap(defautIcon);
+//                defautIcon = ImageUtils.centerSquareScaleBitmap(defautIcon);
+//                largeIcon = ImageUtils.masklargeicon(mask,defautIcon);
+            }
             else largeIcon = null;
 
             actions.clear();
@@ -375,22 +424,27 @@ public class NotificationService extends NotificationListenerService {
             }
 
             // Support for Netease Cloudmusic (a online music app in China)
+
             if (RemoteViewsUtils.NETEASE_CLOUDMUSIC_PACKAGE_NAME.equals(sbn.getPackageName())) {
-                List<String> texts = RemoteViewsUtils.findNeteaseMusicCurrentStates(notification);
-                Log.i("TAG", "Try to get text: " + texts);
-                String toggleIconId = null;
-                if (texts != null && texts.size() >= 2) {
-                    title = texts.get(0);
-                    subtitle = texts.get(1);
-                    if (texts.size() >= 3) {
-                        toggleIconId = texts.get(2);
-                    }
-                } else if (texts != null && texts.size() == 1) {
-                    toggleIconId = texts.get(0);
-                }
-                if (RemoteViewsUtils.NETEASE_CLOUDMUSIC_PLAY_ICON_ID.equals(toggleIconId)) {
+//                List<String> texts = RemoteViewsUtils.findNeteaseMusicCurrentStates(notification);
+//                Log.i("TAG", "Try to get text: " + texts);
+//                String toggleIconId = null;
+//                if (texts != null && texts.size() >= 2) {
+//                    title = texts.get(0);
+//                    subtitle = texts.get(1);
+//                    if (texts.size() >= 3) {
+//                        toggleIconId = texts.get(2);
+//                    }
+//                } else if (texts != null && texts.size() == 1) {
+//                    toggleIconId = texts.get(0);
+//                }
+
+
+//                if (RemoteViewsUtils.NETEASE_CLOUDMUSIC_PLAY_ICON_ID.equals(toggleIconId)) {
+                if (!audioManager.isMusicActive()) {
                     isPlaying = false;
-                } else if (RemoteViewsUtils.NETEASE_CLOUDMUSIC_PAUSE_ICON_ID.equals(toggleIconId)) {
+//                } else if (RemoteViewsUtils.NETEASE_CLOUDMUSIC_PAUSE_ICON_ID.equals(toggleIconId)) {
+                } else if (audioManager.isMusicActive()) {
                     isPlaying = true;
                     // Set netease cloudmusic as current player
                     if (currentPlayer == null || !"com.netease.cloudmusic".equals(currentPlayer.packageName)) {
@@ -405,7 +459,6 @@ public class NotificationService extends NotificationListenerService {
                     }
                 }
             }
-
             updateNotification();
 
             packageName = sbn.getPackageName();
@@ -542,6 +595,25 @@ public class NotificationService extends NotificationListenerService {
         new LastFmImageThread(this, baseUrl).start();
     }
 
+    private void getAlbumArtByTencent(String albumName, String artistName) {
+        if (imageTarget != null)
+            Glide.with(this).clear(imageTarget);
+
+        String baseUrl;
+
+        try {
+            baseUrl = "http://s.music.qq.com/fcgi-bin/music_search_new_platform?t=0&n=1&aggr=0&cr=0&loginUin=0&format=json&inCharset=GB2312&outCharset=utf-8&notice=0&platform=jqminiframe.json&needNewCode=0&p=1&catZhida=0&remoteplace=sizer.newclient.next_song&w="
+                    + URLEncoder.encode(albumName, "UTF-8")
+                    +"|"
+                    + URLEncoder.encode(artistName, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return;
+        }
+        Log.e("baseurl", "getAlbumArtByTencent: "+baseUrl );
+
+        new TencentMusicImageThread(this,baseUrl).start();
+    }
+
     private class MediaReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -596,13 +668,26 @@ public class NotificationService extends NotificationListenerService {
                             cursor.close();
                         }
 
-                        largeIcon = MediaStore.Images.Media.getBitmap(getContentResolver(), albumArtUri);
+                        defautIcon = MediaStore.Images.Media.getBitmap(getContentResolver(), albumArtUri);
+                        largeIcon = ImageUtils.centerSquareScaleBitmap(defautIcon);
                     } catch (Exception e) {
-                        if (prefs.getBoolean(PreferenceUtils.PREF_USE_LASTFM, true) && album != null && artist != null)
+                        if (prefs.getBoolean(PreferenceUtils.PREF_USE_LASTFM, true) && album != null && artist != null) {
                             getAlbumArt(album, artist);
+//                            Log.e("Lastfm", "onReceive: true" );
+                        }
+                        if (prefs.getBoolean(PreferenceUtils.PREF_USE_TENCENTMUSIC, false) && album != null && artist != null){
+//                            Log.e("Tencent", "onReceive: true"+album );
+                            getAlbumArtByTencent(album, artist);
+
+                        }
+
                     }
-                } else if (prefs.getBoolean(PreferenceUtils.PREF_USE_LASTFM, true) && album != null && artist != null)
-                    getAlbumArt(album, artist);
+                } else {
+                    if (prefs.getBoolean(PreferenceUtils.PREF_USE_LASTFM, true) && album != null && artist != null)
+                        getAlbumArt(album, artist);
+                    if (prefs.getBoolean(PreferenceUtils.PREF_USE_TENCENTMUSIC, false) && album != null && artist != null)
+                        getAlbumArtByTencent(album, artist);
+                }
 
                 if (--persistence < 0 || (playerData != null && playerData.persistence > 0)) {
                     if (playerData != null) {
@@ -613,11 +698,14 @@ public class NotificationService extends NotificationListenerService {
                                 packageName = intent.getStringExtra("scrobbling_source");
                             else packageName = null;
 
-                            if (intent.hasExtra("app-name"))
+                            if (intent.hasExtra("app-name")) {
                                 appName = intent.getStringExtra("app-name");
+//                                Log.e(TAG, "onNotificationPosted: "+appName);
+                            }
                             else if (packageName != null) {
                                 try {
                                     appName = getPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA).loadLabel(getPackageManager()).toString();
+//                                    Log.e(TAG, "onNotificationPosted: "+appName);
                                 } catch (Exception e) {
                                     appName = null;
                                 }
@@ -645,13 +733,16 @@ public class NotificationService extends NotificationListenerService {
                     boolean shouldUseKeyCodes = prefs.getInt(PreferenceUtils.PREF_MEDIA_CONTROLS_METHOD, PreferenceUtils.CONTROLS_METHOD_NONE) != PreferenceUtils.CONTROLS_METHOD_NONE;
 
                     PendingIntent previousIntent = null;
-                    if (playerData != null && playerData.previousIntent != null)
+                    if (playerData != null && playerData.previousIntent != null) {
                         previousIntent = playerData.previousIntent;
+//                        Log.e("previousIntent", "onReceive: "+previousIntent );
+                    }
                     else if (shouldUseKeyCodes) {
+//                        Log.e("previousIntent", "onReceive: "+previousIntent );
                         Intent actionIntent = new Intent(context, ActionReceiver.class);
                         actionIntent.putExtra(ActionReceiver.EXTRA_KEYCODE, KeyEvent.KEYCODE_MEDIA_PREVIOUS);
                         actionIntent.putExtra(ActionReceiver.EXTRA_PACKAGE, packageName);
-                        previousIntent = PendingIntent.getBroadcast(context, 0, actionIntent, 0);
+                        previousIntent = PendingIntent.getBroadcast(context, 1, actionIntent, 0);
                     }
 
                     if (previousIntent != null) {
@@ -663,13 +754,15 @@ public class NotificationService extends NotificationListenerService {
                     }
 
                     PendingIntent playPauseIntent = null;
-                    if (playerData != null && playerData.playPauseIntent != null)
+                    if (playerData != null && playerData.playPauseIntent != null) {
                         playPauseIntent = playerData.playPauseIntent;
+//                        Log.e("playPauseIntent", "onReceive: "+playPauseIntent);
+                    }
                     else if (shouldUseKeyCodes) {
                         Intent actionIntent = new Intent(context, ActionReceiver.class);
                         actionIntent.putExtra(ActionReceiver.EXTRA_KEYCODE, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
                         actionIntent.putExtra(ActionReceiver.EXTRA_PACKAGE, packageName);
-                        playPauseIntent = PendingIntent.getBroadcast(context, 0, actionIntent, 0);
+                        playPauseIntent = PendingIntent.getBroadcast(context, 2, actionIntent, 0);
                     }
 
                     if (playPauseIntent != null) {
@@ -681,13 +774,15 @@ public class NotificationService extends NotificationListenerService {
                     }
 
                     PendingIntent nextIntent = null;
-                    if (playerData != null && playerData.nextIntent != null)
+                    if (playerData != null && playerData.nextIntent != null) {
                         nextIntent = playerData.nextIntent;
+//                        Log.e("nextIntent", "onReceive: "+nextIntent);
+                    }
                     else if (shouldUseKeyCodes) {
                         Intent actionIntent = new Intent(context, ActionReceiver.class);
                         actionIntent.putExtra(ActionReceiver.EXTRA_KEYCODE, KeyEvent.KEYCODE_MEDIA_NEXT);
                         actionIntent.putExtra(ActionReceiver.EXTRA_PACKAGE, packageName);
-                        nextIntent = PendingIntent.getBroadcast(context, 0, actionIntent, 0);
+                        nextIntent = PendingIntent.getBroadcast(context, 3, actionIntent, 0);
                     }
 
                     if (nextIntent != null) {
@@ -723,6 +818,14 @@ public class NotificationService extends NotificationListenerService {
                 subtitle = artist;
             else if (album != null)
                 subtitle = album;
+
+//            Log.e(TAG, "onNotificationPosted: "+appName);
+//            @@Try to get smallicon when block player's notification
+
+            if (appName == "Phonograph")
+                smallIcon = ImageUtils.drawableToBitmap(getDrawable(R.drawable.ic_phonograph_smallicon));
+            if (appName == CLOUD_MUSIC_PLAYER)
+                smallIcon = ImageUtils.drawableToBitmap(getDrawable(R.drawable.ic_cloudmusic_smallicon));
 
             updateNotification();
         }
@@ -776,6 +879,7 @@ public class NotificationService extends NotificationListenerService {
                             service.imageTarget = Glide.with(service).asBitmap().load(imageUrl).into(new SimpleTarget<Bitmap>() {
                                 @Override
                                 public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                                    resource = ImageUtils.centerSquareScaleBitmap(resource);
                                     NotificationService service = serviceReference.get();
                                     if (service != null) {
                                         service.largeIcon = resource;
@@ -789,4 +893,75 @@ public class NotificationService extends NotificationListenerService {
             });
         }
     }
+
+
+    private static class TencentMusicImageThread extends Thread {
+
+        private WeakReference<NotificationService> serviceReference;
+        private String url;
+
+        public TencentMusicImageThread(NotificationService service,String url) {
+            serviceReference = new WeakReference<>(service);
+            this.url = url;
+        }
+
+        @Override
+        public void run() {
+            String image = null;
+
+
+            try {
+                HttpURLConnection request = (HttpURLConnection) new URL(url).openConnection();
+                request.connect();
+
+                BufferedReader r = new BufferedReader(new InputStreamReader((InputStream) request.getContent()));
+                StringBuilder total = new StringBuilder();
+                String line;
+                while ((line = r.readLine()) != null) {
+                    total.append(line).append('\n');
+                }
+
+                String source = total.toString();
+                List<String> f = JsonPath.parse(source).read("$.data.song.list[*].f");
+                String id = f.get(0);
+                Log.e("iostream", "id: "+id );
+                String[] desperate = id.split("\\|",6);
+                String imageid = desperate[4];
+
+                image = "http://imgcache.qq.com/music/photo/album/"
+                        + (Integer.parseInt(imageid) % 100)
+                        +"/albumpic_"
+                        +imageid
+                        +"_0.jpg";
+                Log.e("image", "run: "+image );
+
+            } catch (Exception ignored) {Log.e("exception", "exception: "+ignored );
+            }
+
+            final String imageUrl = image;
+
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    NotificationService service = serviceReference.get();
+                    if (service != null) {
+                        if (imageUrl != null) {
+                            service.imageTarget = Glide.with(service).asBitmap().load(imageUrl).into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                                    resource = ImageUtils.centerSquareScaleBitmap(resource);
+                                    NotificationService service = serviceReference.get();
+                                    if (service != null) {
+                                        service.largeIcon = resource;
+                                        service.updateNotification();
+                                    }
+                                }
+                            });
+                        } else service.updateNotification();
+                    }
+                }
+            });
+        }
+    }
+
 }

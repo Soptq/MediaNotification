@@ -39,12 +39,44 @@ public class PaletteUtils {
             case PreferenceUtils.COLOR_METHOD_MUTED:
                 swatch = palette.getMutedSwatch();
                 break;
+            case PreferenceUtils.COLOR_METHOD_PHONOGRAPH:
+                if (palette.getVibrantSwatch() != null) {
+                    return palette.getVibrantSwatch();
+                } else if (palette.getMutedSwatch() != null) {
+                    return palette.getMutedSwatch();
+                } else if (palette.getDarkVibrantSwatch() != null) {
+                    return palette.getDarkVibrantSwatch();
+                } else if (palette.getDarkMutedSwatch() != null) {
+                    return palette.getDarkMutedSwatch();
+                } else if (palette.getLightVibrantSwatch() != null) {
+                    return palette.getLightVibrantSwatch();
+                } else if (palette.getLightMutedSwatch() != null) {
+                    return palette.getLightMutedSwatch();
+                } else if (!palette.getSwatches().isEmpty()) {
+                    swatch = Collections.max(palette.getSwatches(), SwatchComparator.getInstance());
+                }
         }
 
         if (swatch == null)
             swatch = new Palette.Swatch(prefs.getInt(PreferenceUtils.PREF_CUSTOM_COLOR, Color.WHITE), 1);
 
         return swatch;
+    }
+
+    private static class SwatchComparator implements Comparator<Palette.Swatch> {
+        private static SwatchComparator sInstance;
+
+        static SwatchComparator getInstance() {
+            if (sInstance == null) {
+                sInstance = new SwatchComparator();
+            }
+            return sInstance;
+        }
+
+        @Override
+        public int compare(Palette.Swatch lhs, Palette.Swatch rhs) {
+            return lhs.getPopulation() - rhs.getPopulation();
+        }
     }
 
     @ColorInt

@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.JsonReader;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 import soptqs.medianotification.BuildConfig;
+import soptqs.medianotification.R;
 import soptqs.medianotification.adapters.ContributorAdapter;
 import soptqs.medianotification.data.ContributorData;
 import soptqs.medianotification.utils.PreferenceUtils;
@@ -109,7 +111,11 @@ public class AboutDialog extends AppCompatDialog {
                 ));
             }
         } else new ContributorsThread(this, contributors).start();
+
     }
+
+
+
 
     private static class ContributorsThread extends Thread {
 
