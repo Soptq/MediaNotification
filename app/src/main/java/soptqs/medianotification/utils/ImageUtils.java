@@ -1,5 +1,6 @@
 package soptqs.medianotification.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -10,11 +11,15 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.DrawableRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.Log;
+import android.view.View;
 
 import com.jayway.jsonpath.JsonPath;
 
@@ -28,6 +33,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import soptqs.medianotification.R;
+
+import static android.content.ContentValues.TAG;
 
 public class ImageUtils {
 
@@ -152,10 +159,14 @@ public class ImageUtils {
         if (widthOrg >=0 || heightOrg >= 0) {
             //从图中截取正中间的正方形部分。
             if (widthOrg != heightOrg) {
-                edgeLength = heightOrg;
+//                edgeLength = heightOrg;
                 xTopLeft = (widthOrg - edgeLength) / 2;
                 yTopLeft = (heightOrg - edgeLength) / 2;
-                result = Bitmap.createBitmap(bitmap, xTopLeft, yTopLeft, edgeLength - 1, edgeLength - 1, null, false);
+                try {
+                    result = Bitmap.createBitmap(bitmap, xTopLeft, yTopLeft, edgeLength - 1, edgeLength - 1, null, false);
+                }catch (Exception e) {
+                    Log.e(TAG, "centerSquareScaleBitmap: Error croping "+ e );
+                }
                 return result;
             } else if (widthOrg == heightOrg) {
                 result = bitmap;
@@ -165,6 +176,7 @@ public class ImageUtils {
 
         return result;
     }
+
 
 ////    渐变处理
 //

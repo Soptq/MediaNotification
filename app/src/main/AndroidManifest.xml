@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
 
     <application
         android:name="soptqs.medianotification.MediaNotification"
@@ -38,6 +38,15 @@
 
         <activity android:name="soptqs.medianotification.activities.MainIntroActivity" android:theme="@style/Theme.Intro"/>
         <activity android:name=".activities.Issuereporter" android:theme="@style/Theme.App.Dark"/>
+        <activity android:name=".activities.LabsActivity"></activity>
+
+
+        <activity android:name="com.pad.android_independent_video_sdk.view.DvxVideoActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            android:configChanges="orientation|keyboard|screenSize|screenLayout"/>
+        <service android:name="com.pad.android_independent_video_sdk.IndependentService"/>
+        <meta-data android:name="PUBLISH_ID" android:value="媒体id"/>
+
 
         <receiver android:name="soptqs.medianotification.receivers.ActionReceiver" />
 
@@ -50,18 +59,6 @@
             </intent-filter>
         </service>
 
-        <meta-data
-            android:name="BUGLY_APPID"
-            android:value="55bd533027" />
-        <meta-data
-            android:name="BUGLY_APP_VERSION"
-            android:value="1.0.4" />
-        <meta-data
-            android:name="BUGLY_APP_CHANNEL"
-            android:value="Coolapk" />
-        <meta-data
-            android:name="BUGLY_ENABLE_DEBUG"
-            android:value="true" />
     </application>
 
 </manifest>

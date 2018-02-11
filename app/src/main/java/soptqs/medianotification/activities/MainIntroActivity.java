@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import soptqs.medianotification.R;
 
@@ -15,6 +16,7 @@ public class MainIntroActivity extends IntroActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CrashReport.initCrashReport(getApplicationContext(), "55bd533027", true);
         setButtonBackVisible(true);
         setButtonNextVisible(true);
 

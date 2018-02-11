@@ -20,6 +20,7 @@
             android:adjustViewBounds="true"
             android:scaleType="fitCenter" />
 
+
         <ImageView
             android:id="@+id/foregroundImage"
             android:layout_width="96dp"

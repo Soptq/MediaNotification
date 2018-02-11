@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.tencent.bugly.crashreport.CrashReport;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class MediaNotification extends ColorPicker {
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashReport.initCrashReport(getApplicationContext(), "55bd533027", true);
         listeners = new ArrayList<>();
         context = getApplicationContext();
     }
@@ -31,7 +34,6 @@ public class MediaNotification extends ColorPicker {
                 .edit()
                 .putBoolean(PreferenceUtils.PREF_TUTORIAL, true)
                 .putBoolean(PreferenceUtils.PREF_TUTORIAL_PLAYERS, true)
-                .putBoolean(PreferenceUtils.PREF_SHELL, true)
                 .apply();
 
 

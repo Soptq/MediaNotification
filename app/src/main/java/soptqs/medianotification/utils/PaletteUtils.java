@@ -40,21 +40,8 @@ public class PaletteUtils {
                 swatch = palette.getMutedSwatch();
                 break;
             case PreferenceUtils.COLOR_METHOD_PHONOGRAPH:
-                if (palette.getVibrantSwatch() != null) {
-                    return palette.getVibrantSwatch();
-                } else if (palette.getMutedSwatch() != null) {
-                    return palette.getMutedSwatch();
-                } else if (palette.getDarkVibrantSwatch() != null) {
-                    return palette.getDarkVibrantSwatch();
-                } else if (palette.getDarkMutedSwatch() != null) {
-                    return palette.getDarkMutedSwatch();
-                } else if (palette.getLightVibrantSwatch() != null) {
-                    return palette.getLightVibrantSwatch();
-                } else if (palette.getLightMutedSwatch() != null) {
-                    return palette.getLightMutedSwatch();
-                } else if (!palette.getSwatches().isEmpty()) {
-                    swatch = Collections.max(palette.getSwatches(), SwatchComparator.getInstance());
-                }
+                swatch = getHighestPopulationSwatch(palette.getSwatches());
+                break;
         }
 
         if (swatch == null)
@@ -63,26 +50,12 @@ public class PaletteUtils {
         return swatch;
     }
 
-    private static class SwatchComparator implements Comparator<Palette.Swatch> {
-        private static SwatchComparator sInstance;
 
-        static SwatchComparator getInstance() {
-            if (sInstance == null) {
-                sInstance = new SwatchComparator();
-            }
-            return sInstance;
-        }
-
-        @Override
-        public int compare(Palette.Swatch lhs, Palette.Swatch rhs) {
-            return lhs.getPopulation() - rhs.getPopulation();
-        }
-    }
 
     @ColorInt
     public static int getTextColor(Context context, Palette palette, Palette.Swatch swatch) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if (prefs.getBoolean(PreferenceUtils.PREF_HIGH_CONTRAST_TEXT, false)) {
+        if (prefs.getBoolean(PreferenceUtils.PREF_HIGH_CONTRAST_TEXT, false) || prefs.getBoolean(PreferenceUtils.PREF_NOTIFICATION_STYLE2, false)) {
             if (ColorUtils.isColorLight(swatch.getRgb()))
                 return Color.BLACK;
             else return Color.WHITE;
@@ -145,5 +118,15 @@ public class PaletteUtils {
                 return a - b;
             }
         });
+    }
+
+    public static Palette.Swatch getHighestPopulationSwatch(List<Palette.Swatch> swatches) {
+        Palette.Swatch highestSwatch = null;
+        for (Palette.Swatch swatch : swatches) {
+            if (swatch != null) {
+                if (highestSwatch == null || swatch.getPopulation() > highestSwatch.getPopulation()) highestSwatch = swatch;
+            }
+        }
+        return highestSwatch;
     }
 }

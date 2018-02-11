@@ -6,17 +6,17 @@
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/icon"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<FrameLayout-->
+        <!--android:id="@+id/icon"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
-        <soptqs.medianotification.views.AppIconView
-            android:layout_width="146dp"
-            android:layout_height="146dp"
-            android:layout_gravity="center" />
+        <!--<soptqs.medianotification.views.AppIconView-->
+            <!--android:layout_width="146dp"-->
+            <!--android:layout_height="146dp"-->
+            <!--android:layout_gravity="center" />-->
 
-    </FrameLayout>
+    <!--</FrameLayout>-->
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"

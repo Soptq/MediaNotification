@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CrashReport.initCrashReport(getApplicationContext());
+        CrashReport.initCrashReport(getApplicationContext(), "55bd533027", true);
         setContentView(soptqs.medianotification.R.layout.activity_main);
         toolbar = findViewById(soptqs.medianotification.R.id.toolbar);
         tabLayout = findViewById(soptqs.medianotification.R.id.tabLayout);

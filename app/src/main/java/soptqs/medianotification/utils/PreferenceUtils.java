@@ -27,8 +27,13 @@ public class PreferenceUtils {
     public static final String PREF_FORCE_MD_ICONS = "forceMdIcons";
     public static final String PREF_PLAYER_ENABLED = "playerEnabled%s";
     public static final String PREF_TUTORIAL = "tutorial";
-    public static final String PREF_SHELL = "shell";
     public static final String PREF_TUTORIAL_PLAYERS = "tutorialPlayers";
+    public static final String PREF_ENABLE_BLUR = "enableBlur";
+    public static final String PREF_ENABLE_RENDERSCRIPT = "enableRenderScript";
+
+
+    public static final String PREF_NOTIFICATION_STYLE1 = "notificationstyle1";
+    public static final String PREF_NOTIFICATION_STYLE2 = "notificationstyle2";
 
     public static final int COLOR_METHOD_DOMINANT = 0;
     public static final int COLOR_METHOD_PRIMARY = 1;

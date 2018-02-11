@@ -224,7 +224,21 @@ public class PlayerUtils {
                 "com.lge.music.playstatechanged"
         ));
 
-        players.add(new PlayerData("Netease Cloudmusic", "com.netease.cloudmusic"));
+        players.add(new PlayerData(
+                "Netease Cloudmusic",
+                "com.netease.cloudmusic"
+        ));
+
+        players.add(new PlayerData(
+                "Bilibili Player",
+                "tv.danmaku.bili"
+        ));
+
+        players.add(new PlayerData(
+                "QQ Music",
+                "com.tencent.qqmusic",
+                "com.android.music.metachaged"
+        ));
 
         return players;
     }

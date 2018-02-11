@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Media Notification</string>
-    <string name="app_version">1.0.3</string>
+    <string name="app_version">1.0.6 Exp Unsafe</string>
     <string name="title_settings">Customize</string>
     <string name="title_players">Players</string>
     <string name="title_supported_players">Supported Players</string>
@@ -118,7 +118,7 @@
         <item>Primary</item>
         <item>Vibrant</item>
         <item>Muted</item>
-        <item>Phonograph</item>
+        <item>Main</item>
         <item>Always Default</item>
     </string-array>
 

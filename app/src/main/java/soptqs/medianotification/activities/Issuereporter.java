@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.heinrichreimersoftware.androidissuereporter.IssueReporterActivity;
 import com.heinrichreimersoftware.androidissuereporter.model.github.ExtraInfo;
 import com.heinrichreimersoftware.androidissuereporter.model.github.GithubTarget;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import soptqs.medianotification.R;
 
@@ -18,6 +19,7 @@ public class Issuereporter extends IssueReporterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CrashReport.initCrashReport(getApplicationContext(), "55bd533027", true);
         setContentView(R.layout.air_activity_issue_reporter);
         setMinimumDescriptionLength(10);
         setGuestToken("d2bee92043ecb15c55abae5432db8ed955858d09");

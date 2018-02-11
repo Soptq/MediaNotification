@@ -1,4 +1,17 @@
 apply plugin: 'com.android.application'
+apply plugin: 'bugly'
+
+bugly {
+    debug = true;
+    appId = '55bd533027' // 注册时分配的App ID
+    appKey = '92311a0b-361f-4894-a7b3-d551e85f7cd0' // 注册时分配的App Key
+    appChannel = "MIX"
+}
+
+def cmd = 'git rev-list HEAD --first-parent --count'
+def gitVersion = cmd.execute().text.trim().toInteger()
+def cmd1 = 'git describe --tags'
+def version = cmd1.execute().text.trim()
 
 android {
     compileSdkVersion 26
@@ -7,10 +20,20 @@ android {
         applicationId "soptqs.medianotification"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 12
-        versionName "1.0.4"
+        versionCode gitVersion
+        versionName version
         vectorDrawables.useSupportLibrary = true
     }
+
+    signingConfigs {
+        myconfig {
+            keyAlias 'soptqs'
+            keyPassword 'zsy0hpztzq2!0@0#0'
+            storeFile file('/Users/S0ptq/SOPTQ.jks')
+            storePassword 'zsy0hpztzq2!0@0#0'
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -24,6 +47,7 @@ android {
     dataBinding {
         enabled = true
     }
+
 
     lintOptions {
         checkReleaseBuilds false

@@ -36,7 +36,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -59,6 +58,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import soptqs.medianotification.MediaNotification;
 import soptqs.medianotification.R;
 import soptqs.medianotification.data.PlayerData;
 import soptqs.medianotification.receivers.ActionReceiver;
@@ -66,7 +66,8 @@ import soptqs.medianotification.utils.ImageUtils;
 import soptqs.medianotification.utils.PaletteUtils;
 import soptqs.medianotification.utils.PlayerUtils;
 import soptqs.medianotification.utils.PreferenceUtils;
-import soptqs.medianotification.utils.RemoteViewsUtils;
+import soptqs.medianotification.utils.BlurUtils;
+//import soptqs.medianotification.utils.RemoteViewsUtils;
 
 import static android.content.ContentValues.TAG;
 import static android.support.v4.app.NotificationCompat.VISIBILITY_PUBLIC;
@@ -94,7 +95,6 @@ public class NotificationService extends NotificationListenerService {
     private String subtitle;
     private Bitmap largeIcon;
     private Bitmap defautIcon;
-    private Bitmap mask;
     private PendingIntent contentIntent;
     private List<NotificationCompat.Action> actions;
     private List<Bitmap> actionIcons;
@@ -248,19 +248,31 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private RemoteViews getContentView(boolean isCollapsed) {
-        RemoteViews remoteViews = new RemoteViews(getPackageName(), isCollapsed ? soptqs.medianotification.R.layout.layout_notification_collapsed : soptqs.medianotification.R.layout.layout_notification_expanded);
+        if (!prefs.getBoolean(PreferenceUtils.PREF_NOTIFICATION_STYLE2, false)){
+            RemoteViews remoteViews = new RemoteViews(getPackageName(), isCollapsed ? soptqs.medianotification.R.layout.layout_notification_collapsed : soptqs.medianotification.R.layout.layout_notification_expanded);
+            remoteViews = remoteViewSettign(remoteViews, PreferenceUtils.PREF_NOTIFICATION_STYLE1);
+            return remoteViews;
+        } else {
+            RemoteViews remoteViews = new RemoteViews(getPackageName(), isCollapsed ? R.layout.layout_notification_collapsed_stlye2 : R.layout.layout_notification_expanded_stlye2);
+            remoteViews = remoteViewSettign(remoteViews, PreferenceUtils.PREF_NOTIFICATION_STYLE2);
+            return remoteViews;
+        }
+
+    }
+
+    private RemoteViews remoteViewSettign(RemoteViews remoteViews, String style){
         remoteViews.setTextViewText(soptqs.medianotification.R.id.appName, appName + " \u2022 " + (isPlaying ? getResources().getString(R.string.isplaying) : getResources().getString(R.string.ispause)));
         remoteViews.setTextViewText(soptqs.medianotification.R.id.title, title);
         remoteViews.setTextViewText(soptqs.medianotification.R.id.subtitle, subtitle);
 
-        remoteViews.setViewVisibility(soptqs.medianotification.R.id.largeIcon, prefs.getBoolean(PreferenceUtils.PREF_SHOW_ALBUM_ART, true) ? View.VISIBLE : View.GONE);
-        remoteViews.setImageViewBitmap(soptqs.medianotification.R.id.largeIcon, largeIcon);
+        remoteViews.setViewVisibility(R.id.largeIcon, prefs.getBoolean(PreferenceUtils.PREF_SHOW_ALBUM_ART, true) ? View.VISIBLE : View.GONE);
+        remoteViews.setImageViewBitmap(R.id.largeIcon, largeIcon);
         Palette palette = PaletteUtils.getPalette(this, largeIcon);
         Palette.Swatch swatch = PaletteUtils.getSwatch(this, palette);
 
         int color = PaletteUtils.getTextColor(this, palette, swatch);
         remoteViews.setInt(soptqs.medianotification.R.id.image, "setBackgroundColor", swatch.getRgb());
-        remoteViews.setInt(soptqs.medianotification.R.id.foregroundImage, "setColorFilter", swatch.getRgb());
+        if (style == PreferenceUtils.PREF_NOTIFICATION_STYLE1) remoteViews.setInt(soptqs.medianotification.R.id.foregroundImage, "setColorFilter", swatch.getRgb());
         remoteViews.setInt(soptqs.medianotification.R.id.arrow, "setColorFilter", color);
         remoteViews.setImageViewBitmap(soptqs.medianotification.R.id.smallIcon, ImageUtils.setBitmapColor(smallIcon, color));
         remoteViews.setTextColor(soptqs.medianotification.R.id.appName, color);
@@ -306,7 +318,6 @@ public class NotificationService extends NotificationListenerService {
             remoteViews.setInt(id, "setBackgroundResource", selectableItemBackground);
             remoteViews.setOnClickPendingIntent(id, action.getActionIntent());
         }
-
         return remoteViews;
     }
 
@@ -316,8 +327,9 @@ public class NotificationService extends NotificationListenerService {
             return;
 
         Notification notification = sbn.getNotification();
-        if (notification.extras.containsKey(NotificationCompat.EXTRA_MEDIA_SESSION)
-                || RemoteViewsUtils.NETEASE_CLOUDMUSIC_PACKAGE_NAME.equals(sbn.getPackageName())) {
+//        if (notification.extras.containsKey(NotificationCompat.EXTRA_MEDIA_SESSION)
+//                || RemoteViewsUtils.NETEASE_CLOUDMUSIC_PACKAGE_NAME.equals(sbn.getPackageName())) {
+        if (notification.extras.containsKey(NotificationCompat.EXTRA_MEDIA_SESSION)) {
             Bundle extras = NotificationCompat.getExtras(notification);
             if (extras.containsKey(NotificationCompat.EXTRA_TITLE))
                 title = extras.getString(NotificationCompat.EXTRA_TITLE, title);
@@ -386,15 +398,13 @@ public class NotificationService extends NotificationListenerService {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && notification.getLargeIcon() != null){
                 defautIcon = ImageUtils.drawableToBitmap(notification.getLargeIcon().loadDrawable(this));
-                largeIcon = ImageUtils.centerSquareScaleBitmap(defautIcon);
-//                defautIcon = ImageUtils.centerSquareScaleBitmap(defautIcon);
-//                largeIcon = ImageUtils.masklargeicon(mask,defautIcon);
+                Log.e(TAG, "1: "+ defautIcon.getWidth()+ " "+ defautIcon.getWidth() );
+                largeIconProcess(defautIcon);
             }
             else if (notification.largeIcon != null) {
                 defautIcon = notification.largeIcon;
-                largeIcon = ImageUtils.centerSquareScaleBitmap(defautIcon);
-//                defautIcon = ImageUtils.centerSquareScaleBitmap(defautIcon);
-//                largeIcon = ImageUtils.masklargeicon(mask,defautIcon);
+                Log.e(TAG, "2: "+ defautIcon.getWidth()+ " "+ defautIcon.getWidth() );
+                largeIconProcess(defautIcon);
             }
             else largeIcon = null;
 
@@ -425,7 +435,7 @@ public class NotificationService extends NotificationListenerService {
 
             // Support for Netease Cloudmusic (a online music app in China)
 
-            if (RemoteViewsUtils.NETEASE_CLOUDMUSIC_PACKAGE_NAME.equals(sbn.getPackageName())) {
+//            if (RemoteViewsUtils.NETEASE_CLOUDMUSIC_PACKAGE_NAME.equals(sbn.getPackageName())) {
 //                List<String> texts = RemoteViewsUtils.findNeteaseMusicCurrentStates(notification);
 //                Log.i("TAG", "Try to get text: " + texts);
 //                String toggleIconId = null;
@@ -441,24 +451,24 @@ public class NotificationService extends NotificationListenerService {
 
 
 //                if (RemoteViewsUtils.NETEASE_CLOUDMUSIC_PLAY_ICON_ID.equals(toggleIconId)) {
-                if (!audioManager.isMusicActive()) {
-                    isPlaying = false;
+//                if (!audioManager.isMusicActive()) {
+//                    isPlaying = false;
 //                } else if (RemoteViewsUtils.NETEASE_CLOUDMUSIC_PAUSE_ICON_ID.equals(toggleIconId)) {
-                } else if (audioManager.isMusicActive()) {
-                    isPlaying = true;
-                    // Set netease cloudmusic as current player
-                    if (currentPlayer == null || !"com.netease.cloudmusic".equals(currentPlayer.packageName)) {
-                        PlayerData neteasePlayer = null;
-                        for (PlayerData player : players) {
-                            if ("com.netease.cloudmusic".equals(player.packageName)) {
-                                neteasePlayer = player;
-                                break;
-                            }
-                        }
-                        currentPlayer = neteasePlayer;
-                    }
-                }
-            }
+//                } else if (audioManager.isMusicActive()) {
+//                    isPlaying = true;
+//                    // Set netease cloudmusic as current player
+//                    if (currentPlayer == null || !"com.netease.cloudmusic".equals(currentPlayer.packageName)) {
+//                        PlayerData neteasePlayer = null;
+//                        for (PlayerData player : players) {
+//                            if ("com.netease.cloudmusic".equals(player.packageName)) {
+//                                neteasePlayer = player;
+//                                break;
+//                            }
+//                        }
+//                        currentPlayer = neteasePlayer;
+//                    }
+//                }
+//            }
             updateNotification();
 
             packageName = sbn.getPackageName();
@@ -472,8 +482,9 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-        if (sbn.getNotification().extras.containsKey(NotificationCompat.EXTRA_MEDIA_SESSION)
-                || RemoteViewsUtils.NETEASE_CLOUDMUSIC_PACKAGE_NAME.equals(sbn.getPackageName())) {
+//        if (sbn.getNotification().extras.containsKey(NotificationCompat.EXTRA_MEDIA_SESSION)
+//                || RemoteViewsUtils.NETEASE_CLOUDMUSIC_PACKAGE_NAME.equals(sbn.getPackageName())) {
+        if (sbn.getNotification().extras.containsKey(NotificationCompat.EXTRA_MEDIA_SESSION)) {
             notificationManager.cancel(948);
             isVisible = false;
         }
@@ -669,7 +680,8 @@ public class NotificationService extends NotificationListenerService {
                         }
 
                         defautIcon = MediaStore.Images.Media.getBitmap(getContentResolver(), albumArtUri);
-                        largeIcon = ImageUtils.centerSquareScaleBitmap(defautIcon);
+                        largeIconProcess(defautIcon);
+                        Log.e(TAG, "3: "+ defautIcon.getWidth()+ " "+ defautIcon.getWidth() );
                     } catch (Exception e) {
                         if (prefs.getBoolean(PreferenceUtils.PREF_USE_LASTFM, true) && album != null && artist != null) {
                             getAlbumArt(album, artist);
@@ -882,8 +894,12 @@ public class NotificationService extends NotificationListenerService {
                                     resource = ImageUtils.centerSquareScaleBitmap(resource);
                                     NotificationService service = serviceReference.get();
                                     if (service != null) {
-                                        service.largeIcon = resource;
-                                        service.updateNotification();
+                                        try {
+                                            service.largeIconProcess(resource);
+                                            service.updateNotification();
+                                        }catch (Exception e) {
+                                            Log.e(TAG, "onResourceReady: trying to use a recycled bitmap" );
+                                        }
                                     }
                                 }
                             });
@@ -935,7 +951,7 @@ public class NotificationService extends NotificationListenerService {
                         +"_0.jpg";
                 Log.e("image", "run: "+image );
 
-            } catch (Exception ignored) {Log.e("exception", "exception: "+ignored );
+            } catch (Exception ignored) {Log.e("Tencent Music exception", "exception: "+ignored );
             }
 
             final String imageUrl = image;
@@ -952,8 +968,12 @@ public class NotificationService extends NotificationListenerService {
                                     resource = ImageUtils.centerSquareScaleBitmap(resource);
                                     NotificationService service = serviceReference.get();
                                     if (service != null) {
-                                        service.largeIcon = resource;
-                                        service.updateNotification();
+                                        try {
+                                            service.largeIconProcess(resource);
+                                            service.updateNotification();
+                                        }catch (Exception e) {
+                                            Log.e(TAG, "onResourceReady: trying to use a recycled bitmap" );
+                                        }
                                     }
                                 }
                             });
@@ -961,6 +981,23 @@ public class NotificationService extends NotificationListenerService {
                     }
                 }
             });
+        }
+    }
+
+    public void largeIconProcess(Bitmap bkp){
+
+        if (prefs.getBoolean(PreferenceUtils.PREF_ENABLE_RENDERSCRIPT, false)){
+            if (!prefs.getBoolean(PreferenceUtils.PREF_NOTIFICATION_STYLE2, false)) {
+                largeIcon = ImageUtils.centerSquareScaleBitmap(bkp);
+            }else if (prefs.getBoolean(PreferenceUtils.PREF_ENABLE_BLUR, false)){
+                largeIcon = BlurUtils.fastblur(defautIcon, 0.4f, 15);
+            }else largeIcon = ImageUtils.centerSquareScaleBitmap(bkp);
+        }else {
+            if (!prefs.getBoolean(PreferenceUtils.PREF_NOTIFICATION_STYLE2, false)) {
+                largeIcon = ImageUtils.centerSquareScaleBitmap(bkp);
+            }else if (prefs.getBoolean(PreferenceUtils.PREF_ENABLE_BLUR, false)){
+                largeIcon = BlurUtils.blur(MediaNotification.getContext(), ImageUtils.centerSquareScaleBitmap(bkp), 15);
+            }else largeIcon = ImageUtils.centerSquareScaleBitmap(bkp);
         }
     }
 

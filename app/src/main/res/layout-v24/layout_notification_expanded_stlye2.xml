@@ -12,21 +12,15 @@
         android:layout_alignBottom="@+id/content"
         android:layout_alignParentEnd="true">
 
-        <ImageView
-        android:id="@+id/largeIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentEnd="true"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter" />
-
 
         <ImageView
-        android:id="@+id/foregroundImage"
-        android:layout_width="96dp"
-        android:layout_height="match_parent"
-        android:layout_alignStart="@id/largeIcon"
-        android:src="@drawable/background_image" />
+            android:id="@+id/largeIcon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
+
 
     </RelativeLayout>
 

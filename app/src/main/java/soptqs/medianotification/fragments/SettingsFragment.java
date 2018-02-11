@@ -1,6 +1,7 @@
 package soptqs.medianotification.fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,8 +47,10 @@ import java.util.List;
 
 import james.colorpickerdialog.dialogs.ColorPickerDialog;
 import james.colorpickerdialog.dialogs.PreferenceDialog;
+import moe.feng.alipay.zerosdk.AlipayZeroSdk;
 import soptqs.medianotification.MediaNotification;
 import soptqs.medianotification.R;
+import soptqs.medianotification.activities.LabsActivity;
 import soptqs.medianotification.activities.MainActivity;
 import soptqs.medianotification.data.ContributorData;
 import soptqs.medianotification.receivers.ActionReceiver;
@@ -77,9 +80,6 @@ public class SettingsFragment extends BaseFragment {
     private ImageView aboutControlDefault;
     private View storagePermission;
     private Button storagePermissionButton;
-    private View shellPermission;
-    private Button shellPermissionButton;
-    private Button shellIgnore;
     private SwitchCompat albumArtSwitch;
     private SwitchCompat lastFmSwitch;
     private SwitchCompat tencentMusicSwitch;
@@ -88,9 +88,14 @@ public class SettingsFragment extends BaseFragment {
     private SwitchCompat receiverSwitch;
     private Button copyButton;
     private Button magiskButton;
+    private View version;
+    private View donnateView;
+    private Button donnateByAli;
+    private Button donnateByAD;
 
 
     private SharedPreferences prefs;
+    private int Labs = 0;
 
 
 
@@ -116,9 +121,6 @@ public class SettingsFragment extends BaseFragment {
         aboutControlDefault = view.findViewById(R.id.aboutControlDefault);
         storagePermission = view.findViewById(soptqs.medianotification.R.id.storagePermission);
         storagePermissionButton = view.findViewById(soptqs.medianotification.R.id.storagePermissionButton);
-        shellPermission = view.findViewById(R.id.ShellPermission);
-        shellPermissionButton = view.findViewById(R.id.shellPermissionButton);
-        shellIgnore = view.findViewById(R.id.shellignore);
         albumArtSwitch = view.findViewById(R.id.albumArtSwitch);
         lastFmSwitch = view.findViewById(soptqs.medianotification.R.id.lastFmSwitch);
         tencentMusicSwitch = view.findViewById(R.id.tencentMusicSwitch);
@@ -127,32 +129,17 @@ public class SettingsFragment extends BaseFragment {
         receiverSwitch = view.findViewById(soptqs.medianotification.R.id.receiverSwitch);
         copyButton = view.findViewById(R.id.CopyapkButton);
         magiskButton = view.findViewById(R.id.magiskapkButton);
+        version = view.findViewById(R.id.version);
+        donnateView = view.findViewById(R.id.donnateView);
+        donnateByAli = view.findViewById(R.id.donnateByAlipay);
+        donnateByAD = view.findViewById(R.id.donnateByAD);
+
+//        donnateView.setVisibility(View.GONE);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         boolean isTutorial = prefs.getBoolean(PreferenceUtils.PREF_TUTORIAL, true);
         tutorial.setVisibility(isTutorial ? View.VISIBLE : View.GONE);
-        boolean isShell = prefs.getBoolean(PreferenceUtils.PREF_SHELL, true);
-        shellPermission.setVisibility(isShell ? View.VISIBLE : View.GONE);
-
-
-        shellIgnore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                prefs.edit().putBoolean(PreferenceUtils.PREF_SHELL, false).apply();
-                shellPermission.setVisibility(View.GONE);
-            }
-        });
-
-        shellPermissionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Process root = Runtime.getRuntime().exec("su");
-                } catch (IOException e){}
-
-            }
-        });
 
 
         tutorialLearnMore.setOnClickListener(new View.OnClickListener() {
@@ -398,6 +385,25 @@ public class SettingsFragment extends BaseFragment {
             }
         });
 
+        version.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Labs++;
+                if (Labs >= 10) {
+                    Toast.makeText(getContext(), "Labs", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getActivity(), LabsActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        donnateByAli.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aliDonate(getContext(), getActivity());
+            }
+        });
+
         return view;
     }
 
@@ -513,6 +519,12 @@ public class SettingsFragment extends BaseFragment {
                     }
                 });
         builder.create().show();
+    }
+
+    public void aliDonate(Context context, Activity activity){
+        if (AlipayZeroSdk.hasInstalledAlipayClient(context))
+            AlipayZeroSdk.startAlipayClient(activity, "HTTPS://QR.ALIPAY.COM/FKX02896EL8F1WS3RV8183");
+        else Toast.makeText(activity, "Alipay is not installed", Toast.LENGTH_LONG).show();
     }
 
 }
